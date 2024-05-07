@@ -129,3 +129,20 @@ Date strToDate(string str) {
 	return date;
 
 }
+
+string DateToString(Date d)
+{
+	string dateString = ""; //khoi tao chuoi ngay
+	
+	if(d.day<10) dateString+="0";//neu ngay < 10 them 0 vao truoc cho dep
+	dateString += to_string(d.day); //them vao ngay duoc chuyen thanh string vao
+	dateString+="/"; //them dau gach de ngan cach ngay thang va nam
+
+	if(d.month<10) dateString+="0"; // tuong tu voi ngay
+	dateString+=to_string(d.month);
+	dateString+="/";
+
+	dateString+=to_string(d.year); //tuong tu nhu ngay
+
+	return dateString; //tra ve chuoi duoc chuyen hoa tu ngay
+}
