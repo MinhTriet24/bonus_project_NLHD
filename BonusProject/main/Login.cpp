@@ -14,6 +14,7 @@ string semesterPath;
 ListCourses listCourses;
 string schoolYearPath;
 int yPos = 13;
+
 User* login(string id, string password) {
 	User* data = listUser.head;
 	while (data != NULL) {
