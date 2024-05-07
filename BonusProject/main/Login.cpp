@@ -14,7 +14,6 @@ string semesterPath;
 ListCourses listCourses;
 string schoolYearPath;
 int yPos = 13;
-
 User* login(string id, string password) {
 	User* data = listUser.head;
 	while (data != NULL) {
@@ -26,34 +25,72 @@ User* login(string id, string password) {
 	}
 	return NULL;
 }
-
-User* login(string id, string password) //kiem tra xem co ton tai id va mat khau trong danh sach nguoi dung hay khong
-{
-	User* account = listUser.pHead; //khoi tao bien chay la node dau cua danh sach nguoi dung
-	while(account!=NULL) //lap den het danh sach
-		{
-			if(id==account->id) //truong hop gap id cua nguoi dung trong danh sach trung voi id duoc nhap
-			{
-				if(password == account->password) return account;//neu trung mat khau thi tra va nguoi dung do
-				else return NULL;// khong trung mat khau nghia la nguoi dung nhap sai vi id chi co 1, tra ve node null
-			}
-			account = account->pNext;//chuyen qua nguoi dung ke tiep trong danh sach
+string getPassword(bool isHidden) {
+	string passwrd = "";
+	while (true) {
+		gotoXY(79, yPos + 2);
+		if (isHidden) cout << char(254);
+		else cout << " ";
+		gotoXY(58 + passwrd.length(), yPos + 2);
+		char ch;
+		ch = _getch();
+		if (ch == 13) {
+			cout << endl;
+			return passwrd;
 		}
-	return NULL; //sau khi chay vong lap ma khong tim thay user trung voi tai khoan duoc nhap thi tra ve null
-}
+		else if (ch == 0) {
+			ch = _getch();
+			if (ch == 59) {
+				if (isHidden) {
+					string temp = passwrd;
+					while (temp.length() > 0) {
+						cout << "\b \b";
+						temp.pop_back();
+					}
+					cout << passwrd;
+				}
+				else {
+					string temp = passwrd;
+					while (temp.length() > 0) {
+						cout << "\b \b";
+						temp.pop_back();
+					}
+					for (int i = 0; i < passwrd.length(); i++) {
+						cout << '*';
+					}
+				}
+				isHidden = !isHidden;
+			}
+		}
+		else if (ch == 8) {
+			if (passwrd.length() > 0) {
+				cout << "\b \b";
+				passwrd.pop_back();
+			}
+		}
+		else if (passwrd.length() == 13) {
 
-void loginUI()
-{
+		}
+		else {
+			passwrd += ch;
+			if (isHidden) {
+				cout << "*";
+			}
+			else cout << ch;
+		}
+	}
+}
+void loginUI() {
 	const int width = 40;
 	const int height = 10;
 	const int left = 40;
 	const int top = 10;
 
-	drawBox(width,height, left,top); //ve khung cho giao dien dang nhap
-	textAlignCenter("HCMUS PORTAL", left, width, 6); //in ra man hinh dong chu HCMUS PORTAL o vi tri giua khung duoc ve ra
-	textAlignCenter("LOGIN", left, width, 7);// in ra LOGIN o giua khung giao dien, duoi dong HCMUS PORTAL
-	gotoXY(40, 8); cout << currentDate.wDay; //di chuyen con tro den vi tri 40 va 8 in ra ngay thang nam 
-	gotoXY(40, 9); cout << dateToStr(currentDate);//di chuyen con tro den vi tri 40 va 9 va in ra ngay thang nam hien tai
+	drawBox(width, height, left, top);
+	textAlignCenter("HCMUS PORTAL", left, width, 6);
+	textAlignCenter("LOGIN", left, width, 7);
+	gotoXY(40, 8); cout << currentDate.wDay;
+	gotoXY(40, 9); cout << dateToStr(currentDate);
 	gotoXY(48, yPos);
 	cout << "ID:";
 	gotoXY(48, yPos + 2);
@@ -67,7 +104,68 @@ void loginUI()
 	getline(cin, id);
 	password = getPassword(true);
 	currentUser = login(id, password);
-	
 }
+void SiteToLogin() {
+    loginUI();
+    vector<string> options = { "User account","Profile","Manage Student","Manage Course","Setting","Exit" };
+    int currentOption = 0;
+    int onMenu3 = 0;
+    char key;
+    do {
+        if (onMenu3 == 0) {
+            printMenu(options, currentOption,10);
+            drawBox(40, 10, 30, 7);
+            key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
 
+            switch (key) {
+            case 'w':
+                if (currentOption > 0) {
+                    currentOption--;
+                }
+                break;
+            case 's':
+                if (currentOption < options.size() - 1) {
+                    currentOption++;
+                }
+                break;
+            case 13: // Enter
+                if (currentOption == 1) { // Chọn Option 2
+                    onMenu3 = 2; // Đặt biến onMenu thành false để chuyển đến trang mới
+                }
+                if (currentOption == 0) {//.Option 1
+                    onMenu3 = 1;
+                }
+                if (currentOption == 2) {//.OP 3
+                    onMenu3 = 3;
+                }
+                if (currentOption == 3) {
+                    onMenu3 = 4;
+                }
+                if (currentOption == 4) {
+                    onMenu3 = 5;
+                }
+                if (currentOption == 5) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
+                    onMenu3 = 100;
+                    key = 'q';
+                }
+                break;
+            default:
+                break;
+            }
+        }
+        else if (onMenu3 == 2) {//.Option2
 
+        }
+        else if (onMenu3 == 1) {
+            system("cls");
+            cout << "<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>" << endl;
+			system("pause");
+            //.<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>
+            onMenu3 = 0;//.Sau ham se la: onMenu3 = 0 de khi ta nhan 'q' de thoat khoi ham(trang) do thi no se dat onMenu3=0 de in ra lai trang MẸ
+        }
+        else if (onMenu3 == 100) {
+            break;
+        }
+    } while (key != 'q');
+
+}
