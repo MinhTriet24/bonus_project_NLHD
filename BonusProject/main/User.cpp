@@ -1,4 +1,4 @@
-#include "Struct.h"
+#include "struct.h"
 #include "Console.h"
 #include "User.h"
 #include "Login.h"
