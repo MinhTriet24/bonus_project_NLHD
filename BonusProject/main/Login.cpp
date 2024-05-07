@@ -50,6 +50,23 @@ void loginUI()
 	const int top = 10;
 
 	drawBox(width,height, left,top); //ve khung cho giao dien dang nhap
+	textAlignCenter("HCMUS PORTAL", left, width, 6); //in ra man hinh dong chu HCMUS PORTAL o vi tri giua khung duoc ve ra
+	textAlignCenter("LOGIN", left, width, 7);// in ra LOGIN o giua khung giao dien, duoi dong HCMUS PORTAL
+	gotoXY(40, 8); cout << currentDate.wDay; //di chuyen con tro den vi tri 40 va 8 in ra ngay thang nam 
+	gotoXY(40, 9); cout << dateToStr(currentDate);//di chuyen con tro den vi tri 40 va 9 va in ra ngay thang nam hien tai
+	gotoXY(48, yPos);
+	cout << "ID:";
+	gotoXY(48, yPos + 2);
+	cout << "PASSWORD:";
+	gotoXY(72, yPos + 2);
+	cout << " Hidden";
+	cout << char(254);
+	gotoXY(48, yPos + 3);
+	cout << "(press F1 to show password)";
+	gotoXY(55, yPos);
+	getline(cin, id);
+	password = getPassword(true);
+	currentUser = login(id, password);
 	
 }
 
