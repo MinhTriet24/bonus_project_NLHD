@@ -42,4 +42,15 @@ User* login(string id, string password) //kiem tra xem co ton tai id va mat khau
 	return NULL; //sau khi chay vong lap ma khong tim thay user trung voi tai khoan duoc nhap thi tra ve null
 }
 
+void loginUI()
+{
+	const int width = 40;
+	const int height = 10;
+	const int left = 40;
+	const int top = 10;
+
+	drawBox(width,height, left,top); //ve khung cho giao dien dang nhap
+	
+}
+
 
