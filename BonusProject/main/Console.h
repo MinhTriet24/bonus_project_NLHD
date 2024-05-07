@@ -1,6 +1,6 @@
 #ifndef Console_h
 #define Console_h
-#include"struct.h"
+#include "Struct.h"
 //.Console la luu nhung ham thao tac hien thi tren man hinh console va cac ham xu li ngay(Date) thi luu luon trong nay
 void hideCursor(bool isHiden);
 void getConsoleSize(int& width, int& height);

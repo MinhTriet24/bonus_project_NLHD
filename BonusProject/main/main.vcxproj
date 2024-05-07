@@ -139,7 +139,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Login.h" />
     <ClInclude Include="Staff.h" />
-    <ClInclude Include="struct.h" />
+    <ClInclude Include="Struct.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>

@@ -16,6 +16,7 @@
 #include <io.h>
 #include <filesystem>
 #include <sstream>
+#include <vector>
 
 //.Dau tien ta phai doc thong tin toan bo sinh vien vao listUser, hay listUser la co san (available). Va file user.csv chứa thong tin toan bo User( id, pass, Ten,..) 
 using namespace std;

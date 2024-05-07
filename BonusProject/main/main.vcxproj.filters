@@ -44,7 +44,7 @@
     <ClInclude Include="Login.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="struct.h">
+    <ClInclude Include="Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="User.h">

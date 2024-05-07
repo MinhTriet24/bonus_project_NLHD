@@ -28,48 +28,63 @@ User* login(string id, string password) {
 string getPassword(bool isHidden) {
 	string passwrd = "";
 	while (true) {
+		// In ra ký tự ô vuông sau HIDDEN nếu password đang bị che, kh in gì nếu password kh bị che
 		gotoXY(79, yPos + 2);
 		if (isHidden) cout << char(254);
 		else cout << " ";
+		// Đưa con trỏ về sau PASSWORD: 
 		gotoXY(58 + passwrd.length(), yPos + 2);
-		char ch;
-		ch = _getch();
+		char ch = getch();
+		// Tạm dừng để nhập ký tự
 		if (ch == 13) {
+			// Ký tự enter. Nhập xong password. Trả về password luôn
 			cout << endl;
 			return passwrd;
 		}
 		else if (ch == 0) {
 			ch = _getch();
+			// Cái này hình như là mình nhấn F1 á
 			if (ch == 59) {
 				if (isHidden) {
+					// Hiện password
 					string temp = passwrd;
 					while (temp.length() > 0) {
 						cout << "\b \b";
 						temp.pop_back();
+						// Vòng while này để đưa con trỏ trở về lại vị trí đầu của password
 					}
 					cout << passwrd;
 				}
 				else {
+					// Ẩn password
 					string temp = passwrd;
 					while (temp.length() > 0) {
 						cout << "\b \b";
 						temp.pop_back();
 					}
 					for (int i = 0; i < passwrd.length(); i++) {
+						// Ẩn password bằng dấu *
 						cout << '*';
 					}
 				}
+				// Set lại giá trị biến bool
 				isHidden = !isHidden;
 			}
 		}
 		else if (ch == 8) {
+			// Ký tự backspace -> xóa
 			if (passwrd.length() > 0) {
 				cout << "\b \b";
+				// \b: dịch con trỏ lùi về 1 ký tự.
+				// Đưa con trỏ lùi về 1 ký tự. Ghi đè dấu cách lên ký tự sau con trỏ. Rồi lại dịch con trỏ lùi về trước dấu cách
+				//vd: Thanh -> Than_ -> Than
 				passwrd.pop_back();
+				// Hàm xóa 1 ký tự
+
 			}
 		}
 		else if (passwrd.length() == 13) {
-
+			// Vì khoảng cách từ lúc nhập đến từ HIDDEN là 14 nên password tối đa 13 ký tự
 		}
 		else {
 			passwrd += ch;
