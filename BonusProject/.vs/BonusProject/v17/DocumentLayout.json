@@ -22,8 +22,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -34,8 +42,7 @@
               "RelativeToolTip": "main\\Console.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-05-07T16:43:12.487Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-07T16:43:12.487Z"
             },
             {
               "$type": "Document",
@@ -47,8 +54,7 @@
               "RelativeToolTip": "main\\Struct.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-05-07T16:42:41.616Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-07T16:42:41.616Z"
             },
             {
               "$type": "Document",
@@ -58,18 +64,10 @@
               "RelativeDocumentMoniker": "main\\Login.cpp",
               "ToolTip": "D:\\Bonus Project\\bonus_project_NLHD\\BonusProject\\main\\Login.cpp",
               "RelativeToolTip": "main\\Login.cpp",
-              "ViewState": "AQIAAEwAAAAAAAAAAAAkwFYAAABRAAAA",
+              "ViewState": "AQIAABkAAAAAAAAAAAAkwFYAAABRAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-05-07T16:41:41.404Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             }
           ]
         }
