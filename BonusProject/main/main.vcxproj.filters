@@ -36,6 +36,9 @@
     <ClCompile Include="Student.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="SchoolYear.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Student.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SchoolYear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
