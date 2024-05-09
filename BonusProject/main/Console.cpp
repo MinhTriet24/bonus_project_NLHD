@@ -4,6 +4,8 @@
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
+#include "SchoolYear.h"
+
 string id, password;
 User* currentUser = NULL;
 ListUser listUser;
@@ -129,6 +131,107 @@ Date strToDate(string str) {
 	return date;
 
 }
+
+// ham dung de can chinh hang
+void alignRow(int x, int& y, string text, int rowLength)
+{
+	// dem so dau cach va cap phat mang string co so phan tu bang so chuoi con
+	int n = count(text.begin(), text.end(), ' ') + 1;
+	string* strArr = new string[n];
+	int i = 0;
+
+	stringstream ssin(text);
+	while (ssin.good() && i < n)
+	{
+		ssin >> strArr[i]; //luu tung chuoi con vao mang string
+		i++;
+	}
+
+	i = 0;
+	int s = rowLength;
+	while (i < n)
+	{
+		gotoXY(x, y);
+		rowLength = s;
+		while (rowLength > 0 || i < n)
+		{
+			cout << strArr[i] << " ";
+			rowLength -= (strArr[i].length() + 1);
+			i++;
+			if (rowLength < (strArr[i].length() + 1))
+			{
+				break;
+			}
+			y++;
+		}
+	}
+}
+
+void notifyBox(string noti)
+{
+	hideCursor(true);
+	system("cls");
+	//set kich thuoc khung thong bao
+	int width = 45;
+	int height = 5;
+	int left = 40;
+	int top = 9;
+	int yPos = 11;
+
+	gotoXY(57, 8);
+	cout << "NOTIFICATION";
+	//alignRow(45, yPos, noti, 37);
+	height += (yPos - 11);
+
+	drawBox(width, height, left, top);
+	yPos++;
+
+	gotoXY(45, yPos);
+	cout << "Press any key to continue...";
+
+	_getch(); //dung man hinh, nguoi dung nhap ky tu bat ky thi tiep tuc
+	system("cls");
+}
+
+void loginSystem()
+{
+	//xoa man hinh va load cac du lieu co san tu file
+	system("cls");
+	getListUsers();
+	getCurrentSchoolYear();
+	getCurrentSemester();
+	getListCourses();
+	schoolYearPath = "./data/" + currentSchoolYear;// tao duong dan den file nam hoc hien tai
+
+	//vong lap de thao tac voi giao dien dang nhap
+	//ham se chuyen sang giao dien khac khi tai khoan dang nhap dung
+	while (true)
+	{
+		hideCursor(false);//an con tro
+		loginUI();// hien ra cua so dang nhap
+
+		if (currentUser == NULL)
+		{
+			notifyBox("Login Fail");
+		}
+		else
+		{
+			notifyBox("Login Succesful");
+			break;
+		}
+	}
+
+	if (currentUser->isStaff) //la staff thi chuyen sang giao dien cua staff
+	{
+		//staffMenu();
+	}
+	else //nguoc lai la giao dien cua student
+	{
+		//studentMenu();
+	}
+	system("cls");
+}
+
 // Hàm in menu và highlight tùy chọn được chọn
 void printMenu(const vector<string>&options, int currentOption,int k) {//.Ham nay dung de in ra MENU cua 1 trang con.
     // dùng để xóa những gì đã hiển thị trên của sổ console , nghĩa là sau khi nhấn 1 trong các phím w /s thì nó sẽ chuyển sang 1 op khác nhưng cái dòng menu vs op cũ đc chọn vẫn còn nếu k dùng lệnh này, muốn rõ hơn thì xóa dòng này r chạy chương trình là biết.

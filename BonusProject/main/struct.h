@@ -1,5 +1,5 @@
-﻿﻿#ifndef Struct_h
-#define Struct_h
+﻿#ifndef _STRUCT_H_
+#define _STRUCT_H_
 // Tong hop cac struct
 
 #include<cstring>

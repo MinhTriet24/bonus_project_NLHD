@@ -37,14 +37,30 @@ void addCourse(ListCourses& list, Course* course)
 Course* convertCourseData(ifstream& data)
 {
 	Course* course = new Course;
-	string credits, maxStudent, numberResistered, session, acacdemicYear;
+	string credits, maxStudents, numberRegistered, session, academicYear;
 
-	getline(data, course->id, ',');
-	if (course->id == NULL) return;
+	getline(data, course->id, ',');// doc vao id cua khoa hoc
+	if (course->id == "") return;//neu id rong nghia la du lieu khong ton tai thi return
 
-	getline(data, course->courseName);
+	getline(data, course->courseName, ',');//doc vao ten khoa hoc
+	getline(data, course->teacherName, ',');//doc ten giao vien
+	getline(data, credits, ',');//so tin chi
+	course->credits = stoi(credits);//chuyen sang dang so
+	getline(data, academicYear, ',');
+	course->academicYear = stoi(academicYear);
+	getline(data, maxStudents, ',');
+	course->maxStudents = stoi(maxStudents);
+	getline(data, numberRegistered, ',');
+	course->numberRegistered = stoi(numberRegistered);
+	getline(data, course->wDay, ',');
+	getline(data, session, '\n');//doc vao tiet bat dau va ket thuc
+
+	course->session[0] = session.substr(session.find('S'), 2);//tim so tiet bat dau
+	session.erase(session.find('S'), 2);//xoa so tiet bat dau
+	course->session[1] = session.substr(session.find('S'), 2);//tim so tiet ket thuc
+	course->next = NULL;
+	return course;
 }
-//chua xong
 
 void getCurrentSchoolYear()
 {
