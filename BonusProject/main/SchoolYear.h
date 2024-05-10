@@ -5,10 +5,8 @@
 #include "Login.h"
 #include "Console.h"
 #include "User.h"
-
 void addCourse(ListCourses& list, Course* course);
 Course* convertCourseData(ifstream& data);
-
 void getCurrentSchoolYear();
 void getCurrentSemester();
 void getListCourses();
