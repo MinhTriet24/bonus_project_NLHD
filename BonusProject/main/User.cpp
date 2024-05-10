@@ -3,16 +3,7 @@
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
-string id, password;
-User* currentUser = NULL;
-ListUser listUser;
-Date currentDate;
-string currentSchoolYear;
-Semester currentSemester;
-string semesterPath;
-ListCourses listCourses;
-string schoolYearPath;
-int yPos = 13;
+const int yPos = 13;
 void initList(ListUser& list) {
 	list.head = NULL;
 	list.tail = NULL;
