@@ -129,6 +129,9 @@ void StaffMenu() {
 		int k = 9;
 		if (onMenu3 == 0) {
 			printMenu(options, currentOption, k);
+			textAlignCenter("STAFF MENU", 40, 40, 4);
+			gotoXY(75, 5); cout << "Welcome ";
+			gotoXY(75, 6); cout << currentUser->lastName << " " << currentUser->firstName;
 			drawBox(40, 10, 40, 7);
 			key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
 
@@ -189,10 +192,14 @@ void StudentMenu() {
 	int currentOption = 0;
 	int onMenu3 = 0;
 	char key;
+	textAlignCenter("STUDENT MENU", 40, 10, 5);
 	do {
 		int k = 9;
 		if (onMenu3 == 0) {
 			printMenu(options, currentOption, k);
+			textAlignCenter("STUDENT MENU", 40, 40, 4);
+			gotoXY(75, 5); cout << "Welcome ";
+			gotoXY(75, 6); cout << currentUser->lastName << " " << currentUser->firstName;
 			drawBox(40, 10, 40, 7);
 			key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
 
