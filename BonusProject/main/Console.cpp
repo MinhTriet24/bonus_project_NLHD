@@ -214,10 +214,12 @@ void loginSystem()
 	if (currentUser->isStaff) //la staff thi chuyen sang giao dien cua staff
 	{
 		//staffMenu();
+		StaffMenu();
 	}
 	else //nguoc lai la giao dien cua student
 	{
-		//studentMenu();
+		//studentMenu()
+		StudentMenu();
 	}
 	system("cls");
 }
