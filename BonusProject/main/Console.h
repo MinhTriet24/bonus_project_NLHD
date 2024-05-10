@@ -9,5 +9,5 @@ void drawBox(int width, int height, int left, int top);
 void alignRow(int x, int& y, string text, int rowLength);
 void notifyBox(string noti);
 void textAlignCenter(string s, int left, int width, int y);
-void printMenu(const vector<string>& options, int currentOption,int k);
+void printMenu(const vector<string>& options, int currentOption, int k);
 #endif
