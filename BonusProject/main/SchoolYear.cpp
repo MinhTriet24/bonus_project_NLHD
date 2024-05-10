@@ -1,12 +1,6 @@
 #include "SchoolYear.h"
 
-string currentSchoolYear;
-Date currentDate;
 const string useDataPath = "Data/Accounts/users.csv"; //tao tuong dan den file du lieu cua nguoi dung
-Semester currentSemester;
-string semesterPath; //duong dan den file luu tru ky hoc
-ListCourses listCourses;
-string schoolYearPath;
 //ListClasses listClasses; //chua dung toi class
 
 //ham them mot khoa hoc vao danh sach khoa hoc
@@ -40,7 +34,7 @@ Course* convertCourseData(ifstream& data)
 	string credits, maxStudents, numberRegistered, session, academicYear;
 
 	getline(data, course->id, ',');// doc vao id cua khoa hoc
-	if (course->id == "") return;//neu id rong nghia la du lieu khong ton tai thi return
+	if (course->id == "") return NULL;//neu id rong nghia la du lieu khong ton tai thi return
 
 	getline(data, course->courseName, ',');//doc vao ten khoa hoc
 	getline(data, course->teacherName, ',');//doc ten giao vien
@@ -95,7 +89,7 @@ void getCurrentSemester()
 	fIn >> currentSemester.semester; //doc hoc ky hien tai dang lai hoc ky may
 	string startDate, endDate, dataTmp;
 	getline(fIn, dataTmp);//doc du lieu thua
-	getline(fIn,startDate);//doc ngay bat dau hoc ky
+	getline(fIn, startDate);//doc ngay bat dau hoc ky
 	getline(fIn, endDate); //doc ngay ket thuc hoc ky
 
 	if (startDate == "" || endDate == "") //neu 1 trong 2 ngay khong ton tai
@@ -124,7 +118,7 @@ void getListCourses()
 	string tmpData; //bien string luu du lieu tam
 	string start, end;
 
-	getline(fIn,tmpData);
+	getline(fIn, tmpData);
 	start = tmpData.substr(tmpData.find(',') + 1, 10);//tim chuoi ngay bat dau trong chuoi tmpData
 	//substr la chuoi con, ham find tro den vi tri cua ki tu, 10 la do lai cua chuoi ngay
 	// vi du 24/12/2005 co do dai chuoi la 10
@@ -134,7 +128,7 @@ void getListCourses()
 	listCourses.startDate = strToDate(start);
 	listCourses.endDate = strToDate(end);
 
-	getline(fIn,tmpData);// doc du lieu tam
+	getline(fIn, tmpData);// doc du lieu tam
 	while (!fIn.eof())
 	{
 		//addCourses(listCourses, convertCourseData(fIn));
