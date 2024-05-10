@@ -137,18 +137,18 @@ void alignRow(int x, int& y, string text, int rowLength)
 		i++;
 	}
 
-	i = 0;
+	i = 0;//cho bien chay ve 0
 	int s = rowLength;
 	while (i < n)
 	{
-		gotoXY(x, y);
-		rowLength = s;
-		while (rowLength > 0 || i < n)
+		gotoXY(x, y); //cho con tro den vi tri x y tinh truoc
+		rowLength = s;//giu nguyen rowLength sau moi vong lap
+		while (rowLength > 0 || i < n) //lap khi rowLength > 0 va khi chua het mang string
 		{
-			cout << strArr[i] << " ";
-			rowLength -= (strArr[i].length() + 1);
-			i++;
-			if (rowLength < (strArr[i].length() + 1))
+			cout << strArr[i] << " "; //in ra chu
+			rowLength -= (strArr[i].length() + 1); //tinh do dai tu chu vua in den gioi han phai
+			i++;//tang bien chay trong mang
+			if (rowLength < (strArr[i].length() + 1)) //thoat khoi vong lam khi do dai hang nho hon do dai chu tiep theo
 			{
 				break;
 			}
@@ -161,21 +161,23 @@ void notifyBox(string noti)
 {
 	hideCursor(true);
 	system("cls");
-	//set kich thuoc khung thong bao
+	//set up kich thuoc khung thong bao
 	int width = 45;
 	int height = 5;
 	int left = 40;
 	int top = 9;
 	int yPos = 11;
 
-	gotoXY(57, 8);
+	gotoXY(57, 8);//di con tro den vi tri 57 8
 	cout << "NOTIFICATION";
-	//alignRow(45, yPos, noti, 37);
-	height += (yPos - 11);
+	alignRow(45, yPos, noti, 37);//in ra thong bao noti duoc can chinh voi do dai hang la 37
+	height += (yPos - 11);//tang chieu cao cua bang bang voi so chu trong noti
 
+	// ve box
 	drawBox(width, height, left, top);
 	yPos++;
 
+	// xuong dong in ra text
 	gotoXY(45, yPos);
 	cout << "Press any key to continue...";
 
