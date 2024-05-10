@@ -1,4 +1,4 @@
-﻿#ifndef _STRUCT_H_
+#ifndef _STRUCT_H_
 #define _STRUCT_H_
 // Tong hop cac struct
 
@@ -69,7 +69,17 @@ struct ListCourses {
 	Course* tail;
 	Date startDate, endDate;
 	int size;
+
 };
+
+extern User* currentUser;
+extern ListUser listUser;
+extern Date currentDate;
+extern string currentSchoolYear;
+extern Semester currentSemester;
+extern string semesterPath;
+extern ListCourses listCourses;
+extern string schoolYearPath;
 //struct Class {
 //	string className;
 //	fs::path path;
