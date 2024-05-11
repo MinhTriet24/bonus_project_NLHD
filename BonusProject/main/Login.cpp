@@ -3,6 +3,8 @@
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
+#include "Staff.h"
+
 // Ham kiem tra xem tai khoan va mat khau dc nhap vao co ton tai trong List (List duoc tao bang cach doc tu file csv)
 string id, password;
 User* currentUser = NULL;
@@ -14,6 +16,7 @@ string semesterPath;
 ListCourses listCourses;
 string schoolYearPath;
 int yPos = 13;
+
 User* login(string id, string password) {
 	User* data = listUser.head;
 	while (data != NULL) {
@@ -25,6 +28,7 @@ User* login(string id, string password) {
 	}
 	return NULL;
 }
+
 string getPassword(bool isHidden) {
 	string passwrd = "";
 	while (true) {
@@ -95,6 +99,7 @@ string getPassword(bool isHidden) {
 		}
 	}
 }
+
 void loginUI() {
 	const int width = 40;
 	const int height = 10;
@@ -115,23 +120,69 @@ void loginUI() {
 	cout << char(254);
 	gotoXY(48, yPos + 3);
 	cout << "(press F1 to show password)";
-	gotoXY(55, yPos);
+	gotoXY(52, yPos);
 	getline(cin, id);
 	password = getPassword(true);
 	currentUser = login(id, password);
 }
-void StaffMenu() {
-	vector<string> options = { "User account","Profile","Manage Student","Manage Course","Setting","Exit" };
+
+void changePassword() {
+	const int width = 40;
+	const int height = 7;
+	const int left = 40;
+	const int top = 8;
+	int curPos = 0;
+	int yPos = 10;
+	string currentPassword;
+
+	hideCursor(false);
+	// Con trỏ đang nhấp nháy
+	do {
+		system("cls");
+		gotoXY(55, 5); cout << "HCMUS Portal";
+		gotoXY(53, 7); cout << "Change Password";
+		drawBox(width, height, left, top);
+		// Nhập mật khẩu hiện tại
+		gotoXY(45, yPos); cout << "Current password: ";
+		getline(cin, currentPassword);
+		// So sánh với mật khẩu nằm trong linklists
+		if (currentPassword == currentUser->password) {
+			gotoXY(45, yPos + 2); cout << "New password: ";
+			yPos++;
+			getline(cin, currentUser->password);
+			notifyBox("Successful");
+			hideCursor(true);
+			saveListUser();
+			return;
+		}
+		else {
+			gotoXY(45, 11); cout << "Wrong password";
+			gotoXY(45, 12); cout << "Enter to try again...";
+			gotoXY(45, 13); cout << "Esc to back...";
+			int key = _getch();
+			if (key == 27) {
+				hideCursor(true);
+				return;
+			}
+		}
+		yPos = 10;
+	} while (true);
+}
+
+void logout() {
+	currentUser = NULL;
+}
+
+void Setting() {
+	vector<string> options = { "Change password", "Log out", "Exit" };
 	int currentOption = 0;
-	int onMenu3 = 0;
+	int onMenu = 0;
 	char key;
 	do {
 		int k = 9;
-		if (onMenu3 == 0) {
+		if (onMenu == 0) {
 			printMenu(options, currentOption, k);
-			textAlignCenter("STAFF MENU", 40, 40, 4);
-			gotoXY(75, 5); cout << "Welcome ";
-			gotoXY(75, 6); cout << currentUser->lastName << " " << currentUser->firstName;
+			textAlignCenter("SETTING", 40, 40, 4);
 			drawBox(40, 10, 40, 7);
 			key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
 
@@ -148,22 +199,14 @@ void StaffMenu() {
 				break;
 			case 13: // Enter
 				if (currentOption == 1) { // Chọn Option 2
-					onMenu3 = 2; // Đặt biến onMenu thành false để chuyển đến trang mới
+					onMenu = 2; // Đặt biến onMenu thành false để chuyển đến trang mới
 				}
 				if (currentOption == 0) {//.Option 1
-					onMenu3 = 1;
+					onMenu = 1;
 				}
-				if (currentOption == 2) {//.OP 3
-					onMenu3 = 3;
-				}
-				if (currentOption == 3) {
-					onMenu3 = 4;
-				}
-				if (currentOption == 4) {
-					onMenu3 = 5;
-				}
-				if (currentOption == 5) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
-					onMenu3 = 100;
+				if (currentOption == 2) {
+					// Nut back
+					onMenu = 100;
 					key = 'q';
 				}
 				break;
@@ -171,98 +214,21 @@ void StaffMenu() {
 				break;
 			}
 		}
-		else if (onMenu3 == 2) {//.Option2
-
+		else if (onMenu == 2) { //.Option2
+			logout();
+			// Chưa xong
 		}
-		else if (onMenu3 == 1) {
-			system("cls");
-			cout << "<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>" << endl;
-			system("pause");
-			//.<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>
-			onMenu3 = 0;//.Sau ham se la: onMenu3 = 0 de khi ta nhan 'q' de thoat khoi ham(trang) do thi no se dat onMenu3=0 de in ra lai trang MẸ
+		else if (onMenu == 1) {
+			changePassword();
+			onMenu = 0;
 		}
-		else if (onMenu3 == 100) {
+		else if (onMenu == 100) {
+			StaffMenu();
 			break;
 		}
 	} while (key != 'q');
-
 }
-void StudentMenu() {
-	vector<string> options = { "User account","Profile","Course Registration","Scoreboard","List of classes","List of courses","Setting","Exit" };
-	int currentOption = 0;
-	int onMenu3 = 0;
-	char key;
-	textAlignCenter("STUDENT MENU", 40, 10, 5);
-	do {
-		int k = 9;
-		if (onMenu3 == 0) {
-			printMenu(options, currentOption, k);
-			textAlignCenter("STUDENT MENU", 40, 40, 4);
-			gotoXY(75, 5); cout << "Welcome ";
-			gotoXY(75, 6); cout << currentUser->lastName << " " << currentUser->firstName;
-			drawBox(40, 10, 40, 7);
-			key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
 
-			switch (key) {
-			case 'w':
-				if (currentOption > 0) {
-					currentOption--;
-				}
-				break;
-			case 's':
-				if (currentOption < options.size() - 1) {
-					currentOption++;
-				}
-				break;
-			case 13: // Enter
-				if (currentOption == 1) { // Chọn Option 2
-					onMenu3 = 2; // Đặt biến onMenu thành false để chuyển đến trang mới
-				}
-				if (currentOption == 0) {//.Option 1
-					onMenu3 = 1;
-				}
-				if (currentOption == 2) {//.OP 3
-					onMenu3 = 3;
-				}
-				if (currentOption == 3) {
-					onMenu3 = 4;
-				}
-				if (currentOption == 4) {
-					onMenu3 = 5;
-				}
-				if (currentOption == 5) {
-					onMenu3 = 6;
-				}
-				if (currentOption == 6) {
-					onMenu3 = 7;
-				}
-				if (currentOption == 7) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
-					onMenu3 = 100;
-					key = 'q';
-				}
-				break;
-			default:
-				break;
-			}
-		}
-		else if (onMenu3 == 2) {//.Option2
 
-		}
-		else if (onMenu3 == 1) {
-			system("cls");
-			cout << "<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>" << endl;
-			system("pause");
-			//.<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>
-			onMenu3 = 0;//.Sau ham se la: onMenu3 = 0 de khi ta nhan 'q' de thoat khoi ham(trang) do thi no se dat onMenu3=0 de in ra lai trang MẸ
-		}
-		else if (onMenu3 == 100) {
-			break;
-		}
-		else if (onMenu3 == 3) {
 
-		}
-		//.Con tiep
-	} while (key != 'q');
-
-}
 

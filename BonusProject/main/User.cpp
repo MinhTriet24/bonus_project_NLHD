@@ -1,9 +1,10 @@
-#include "struct.h"
+﻿#include "struct.h"
 #include "Console.h"
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
 const int yPos = 13;
+
 void initList(ListUser& list) {
 	list.head = NULL;
 	list.tail = NULL;
@@ -55,4 +56,20 @@ void getListUsers() {
 	while (!fin.eof()) {//. duyet toi cuoi file csv thi dung.
 		addUser(listUser, convertUserData(fin));//.Them 1 Node=convertUserData(fin) vao cuoi listUser
 	}
+}
+
+void saveListUser() {
+	ofstream fout("D:/User Information/users.csv");
+	fout << "ID,Password,Last name,First name,Class,Gender,Date of Birth,Academic year,Staff" << endl;
+	User* curr = listUser.head;
+	while (curr != NULL) {
+		string dateOfBirth = to_string(curr->dateOfBirth.day) + "/" + to_string(curr->dateOfBirth.month) + "/" + to_string(curr->dateOfBirth.year);
+		fout << curr->id << "," << curr->password << "," << curr->lastName << "," << curr->firstName
+			<< "," << curr->className << "," << curr->gender << "," << dateOfBirth << "," << to_string(curr->academicYear) << ",";
+		if (curr->isStaff) fout << "TRUE";
+		else fout << "FALSE";
+		curr = curr->next;
+		if (curr != NULL) fout << endl;
+	}
+	fout.close();
 }

@@ -1,11 +1,13 @@
-
 #include "Console.h"
 #include"struct.h"
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
 #include "SchoolYear.h"
+#include "Staff.h"
+
 const int yPos = 13;
+
 //ListClasses listClasses;
 void getConsoleSize(int& width, int& height) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -70,13 +72,17 @@ string dateToStr(Date date) {//.chuyen 1 so int 1 thanh 01 , ma so 12 van la 12
 	return str;
 }
 // Ham kiem tra xem tai khoan va mat khau dc nhap vao co ton tai trong List (List duoc tao bang cach doc tu file csv)
-//Ham an / hien con tro nhấp nháy tren man hinh Console--> OK!
-void hideCursor(bool isHiden) {
+
+void hideCursor(bool isHidden) {
+	// Hàm dùng để ẩn hiện con trỏ nhấp nháy trên màn hình console
+	// ishidden = true --> ẩn
+	// ishidden = false --> nhấp nháy
 	CONSOLE_CURSOR_INFO cursor;
 	GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor);
-	cursor.bVisible = !isHiden;
+	cursor.bVisible = !isHidden;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor);
 }
+
 int dayofweek(int d, int m, int y)
 {
 	static int t[] = { 0, 3, 2, 5, 0, 3,
@@ -227,12 +233,13 @@ void loginSystem()
 }
 
 // Hàm in menu và highlight tùy chọn được chọn
-void printMenu(const vector<string>& options, int currentOption, int k) {//.Ham nay dung de in ra MENU cua 1 trang con.
+void printMenu(const vector<string>& options, int currentOption, int k) {
+	// Ham nay dung de in ra MENU cua 1 trang con.
 	// dùng để xóa những gì đã hiển thị trên của sổ console , nghĩa là sau khi nhấn 1 trong các phím w /s thì nó sẽ chuyển sang 1 op khác nhưng cái dòng menu vs op cũ đc chọn vẫn còn nếu k dùng lệnh này, muốn rõ hơn thì xóa dòng này r chạy chương trình là biết.
 	system("cls");
 	for (int i = 0; i < options.size(); ++i) {
 		if (i == currentOption) {
-			//.Nếu là currOp thì mình đổi màu chữ--> cout ra op --> đổi lại màu chữ trắng . còn k phải curOp thì mình sẽ cout thôi, nghĩa là àu chữ trắng
+			//.Nếu là currOp thì mình đổi màu chữ--> cout ra op --> đổi lại màu chữ trắng . còn k phải curOp thì mình sẽ cout thôi, nghĩa là màu chữ trắng
 			// Thay đổi màu sắc chữ cho cả dòng code sau này , nếu k có lệnh trả lại màu chữ ban đầu thì màu chữ đc in ra luôn là xanh lá
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 			gotoXY(53, k);
