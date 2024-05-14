@@ -66,7 +66,7 @@ void StaffMenu() {
 			ManageStudentMenu();
 		}
 		else if (onMenu3 == 4) {
-
+			void ManageCourseMenu();
 		}
 		else if (onMenu3 == 5) {
 			Setting();

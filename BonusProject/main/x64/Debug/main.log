@@ -1,3 +1,14 @@
-﻿  Staff.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\filesystem(12): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
-  main.vcxproj -> D:\bonus_project_NLHD\BonusProject\x64\Debug\main.exe
+﻿  Console.cpp
+D:\bonusProject\bonus_project_NLHD\BonusProject\main\Console.cpp(62,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\bonusProject\bonus_project_NLHD\BonusProject\main\Console.cpp(135,8): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+D:\bonusProject\bonus_project_NLHD\BonusProject\main\Console.cpp(155,37): warning C4267: '-=': conversion from 'size_t' to 'int', possible loss of data
+  Login.cpp
+D:\bonusProject\bonus_project_NLHD\BonusProject\main\Login.cpp(40,13): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+  SchoolYear.cpp
+  Staff.cpp
+  struct.cpp
+  Student.cpp
+  User.cpp
+  Generating Code...
+  main.vcxproj -> D:\bonusProject\bonus_project_NLHD\BonusProject\x64\Debug\main.exe

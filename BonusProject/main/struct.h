@@ -14,14 +14,12 @@
 #include <time.h>
 #include <direct.h>
 #include <io.h>
-#include <filesystem>
 #include <sstream>
 #include <vector>
+#include <string>
 
 //.Dau tien ta phai doc thong tin toan bo sinh vien vao listUser, hay listUser la co san (available). Va file user.csv chứa thong tin toan bo User( id, pass, Ten,..) 
 using namespace std;
-//namespace fs = filesystem;
-
 
 struct Date {
 	int year;
@@ -47,6 +45,31 @@ struct ListUser {
 	User* tail;
 	int size;
 };
+
+struct Student {
+	string studentID;
+	string lastName;
+	string firstName;
+	string gender;
+	string socialID;
+	Date dateOfBirth;
+	int academicYear;
+	ListCourses enrolledCourses;
+	//CourseMark courseMark;
+	//SemesterMark semesterMark;
+	Student* prev;
+	Student* next;
+};
+struct ListStudent {
+	Student* head;
+	Student* tail;
+	string program;
+	string className;
+	string year;
+	int academicYear;
+	int size;
+};
+
 struct Semester {
 	int semester;
 	Date startDate, endDate;
@@ -80,17 +103,19 @@ extern Semester currentSemester;
 extern string semesterPath;
 extern ListCourses listCourses;
 extern string schoolYearPath;
-//struct Class {
-//	string className;
-//	fs::path path;
-//	Class* prev;
-//	Class* next;
-//};
-//struct ListClasses {
-//	Class* head;
-//	Class* tail;
-//	int size;
-//};
+
+struct Class {
+	string className;
+	string path;
+	Class* prev;
+	Class* next;
+};
+
+struct ListClasses {
+	Class* head;
+	Class* tail;
+	int size;
+};
 
 
 string dateToStr(Date date);
