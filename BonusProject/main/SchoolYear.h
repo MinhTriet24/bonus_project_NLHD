@@ -1,7 +1,7 @@
 #ifndef _SCHOOLYEAR_H_
 #define _SCHOOLYEAR_H_
 
-#include "Struct.h"
+#include "struct.h"
 #include "Login.h"
 #include "Console.h"
 #include "User.h"
@@ -10,8 +10,5 @@ Course* convertCourseData(ifstream& data);
 void getCurrentSchoolYear();
 void getCurrentSemester();
 void getListCourses();
-
-
-
 
 #endif
