@@ -1,13 +1,11 @@
+
 #include "Console.h"
 #include"struct.h"
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
 #include "SchoolYear.h"
-#include "Staff.h"
-
 const int yPos = 13;
-
 //ListClasses listClasses;
 void getConsoleSize(int& width, int& height) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -72,17 +70,13 @@ string dateToStr(Date date) {//.chuyen 1 so int 1 thanh 01 , ma so 12 van la 12
 	return str;
 }
 // Ham kiem tra xem tai khoan va mat khau dc nhap vao co ton tai trong List (List duoc tao bang cach doc tu file csv)
-
-void hideCursor(bool isHidden) {
-	// Hàm dùng để ẩn hiện con trỏ nhấp nháy trên màn hình console
-	// ishidden = true --> ẩn
-	// ishidden = false --> nhấp nháy
+//Ham an / hien con tro nhấp nháy tren man hinh Console--> OK!
+void hideCursor(bool isHiden) {
 	CONSOLE_CURSOR_INFO cursor;
 	GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor);
-	cursor.bVisible = !isHidden;
+	cursor.bVisible = !isHiden;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor);
 }
-
 int dayofweek(int d, int m, int y)
 {
 	static int t[] = { 0, 3, 2, 5, 0, 3,
@@ -143,18 +137,18 @@ void alignRow(int x, int& y, string text, int rowLength)
 		i++;
 	}
 
-	i = 0;//cho bien chay ve 0
+	i = 0;
 	int s = rowLength;
 	while (i < n)
 	{
-		gotoXY(x, y); //cho con tro den vi tri x y tinh truoc
-		rowLength = s;//giu nguyen rowLength sau moi vong lap
-		while (rowLength > 0 || i < n) //lap khi rowLength > 0 va khi chua het mang string
+		gotoXY(x, y);
+		rowLength = s;
+		while (rowLength > 0 || i < n)
 		{
-			cout << strArr[i] << " "; //in ra chu
-			rowLength -= (strArr[i].length() + 1); //tinh do dai tu chu vua in den gioi han phai
-			i++;//tang bien chay trong mang
-			if (rowLength < (strArr[i].length() + 1)) //thoat khoi vong lam khi do dai hang nho hon do dai chu tiep theo
+			cout << strArr[i] << " ";
+			rowLength -= (strArr[i].length() + 1);
+			i++;
+			if (rowLength < (strArr[i].length() + 1))
 			{
 				break;
 			}
@@ -167,23 +161,21 @@ void notifyBox(string noti)
 {
 	hideCursor(true);
 	system("cls");
-	//set up kich thuoc khung thong bao
+	//set kich thuoc khung thong bao
 	int width = 45;
 	int height = 5;
 	int left = 40;
 	int top = 9;
 	int yPos = 11;
 
-	gotoXY(57, 8);//di con tro den vi tri 57 8
+	gotoXY(57, 8);
 	cout << "NOTIFICATION";
-	alignRow(45, yPos, noti, 37);//in ra thong bao noti duoc can chinh voi do dai hang la 37
-	height += (yPos - 11);//tang chieu cao cua bang bang voi so chu trong noti
+	//alignRow(45, yPos, noti, 37);
+	height += (yPos - 11);
 
-	// ve box
 	drawBox(width, height, left, top);
 	yPos++;
 
-	// xuong dong in ra text
 	gotoXY(45, yPos);
 	cout << "Press any key to continue...";
 
@@ -233,13 +225,12 @@ void loginSystem()
 }
 
 // Hàm in menu và highlight tùy chọn được chọn
-void printMenu(const vector<string>& options, int currentOption, int k) {
-	// Ham nay dung de in ra MENU cua 1 trang con.
+void printMenu(const vector<string>& options, int currentOption, int k) {//.Ham nay dung de in ra MENU cua 1 trang con.
 	// dùng để xóa những gì đã hiển thị trên của sổ console , nghĩa là sau khi nhấn 1 trong các phím w /s thì nó sẽ chuyển sang 1 op khác nhưng cái dòng menu vs op cũ đc chọn vẫn còn nếu k dùng lệnh này, muốn rõ hơn thì xóa dòng này r chạy chương trình là biết.
 	system("cls");
 	for (int i = 0; i < options.size(); ++i) {
 		if (i == currentOption) {
-			//.Nếu là currOp thì mình đổi màu chữ--> cout ra op --> đổi lại màu chữ trắng . còn k phải curOp thì mình sẽ cout thôi, nghĩa là màu chữ trắng
+			//.Nếu là currOp thì mình đổi màu chữ--> cout ra op --> đổi lại màu chữ trắng . còn k phải curOp thì mình sẽ cout thôi, nghĩa là àu chữ trắng
 			// Thay đổi màu sắc chữ cho cả dòng code sau này , nếu k có lệnh trả lại màu chữ ban đầu thì màu chữ đc in ra luôn là xanh lá
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 			gotoXY(53, k);
@@ -255,3 +246,4 @@ void printMenu(const vector<string>& options, int currentOption, int k) {
 		}
 	}
 }
+	
