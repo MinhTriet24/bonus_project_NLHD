@@ -1,10 +1,10 @@
-﻿#include "struct.h"
+#include "struct.h"
 #include "Console.h"
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
+#include"SchoolYear.h"
 const int yPos = 13;
-
 void initList(ListUser& list) {
 	list.head = NULL;
 	list.tail = NULL;
@@ -47,9 +47,10 @@ void addUser(ListUser& list, User* user) {
 	}
 	list.size++;
 }
+const string useDataPath = "Data/Accounts/users.csv";
 //.Doc toan bo thong tin cac sinh vien va luu thong tin vao 1 dslk listUser --> OK!
 void getListUsers() {
-	ifstream fin("D:/Users Information/users.csv");
+	ifstream fin(useDataPath);
 	string  data = "";//.cai nay hoi thua(k can thiet).-->co the bo cmnl!
 	getline(fin, data);// data luc nay chua toan bo noi dung file csv (co ca ki tu (\n) la xuong dong)-->data luc nay la toan bo noi dung cua file csv.
 	initList(listUser);
@@ -57,9 +58,8 @@ void getListUsers() {
 		addUser(listUser, convertUserData(fin));//.Them 1 Node=convertUserData(fin) vao cuoi listUser
 	}
 }
-
 void saveListUser() {
-	ofstream fout("D:/User Information/users.csv");
+	ofstream fout(useDataPath);
 	fout << "ID,Password,Last name,First name,Class,Gender,Date of Birth,Academic year,Staff" << endl;
 	User* curr = listUser.head;
 	while (curr != NULL) {
