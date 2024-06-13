@@ -1,16 +1,11 @@
-#ifndef Staff_h
-#define Staff_h
-
-#include "Console.h"
+#pragma once
+#ifndef Header_h
+#define Header_h
 #include"struct.h"
-#include "User.h"
-#include "Login.h"
-#include "Student.h"
-#include "SchoolYear.h"
-
+const char cursorLeft = char(175);
+const char cursorRight = char(174);
+void Profile();
 void StaffMenu();
-void ProfileStaff();
-void ManageStudentMenu();
-void ManageCourseMenu();
-void Setting();
-#endif 
+void userAccount();
+void changePassword();
+#endif
