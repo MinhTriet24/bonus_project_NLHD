@@ -140,3 +140,125 @@ void changePassword() {
 			system("pause");
 		}
 }
+
+// Option 3
+void ManageStudentMenu() {
+	vector<string> options = { "School Year Information","Create class","List of classes","Exit" };
+	int currentOption = 0;
+	int onMenu3 = 0;
+	char key;
+	do {
+		int k = 9;
+		if (onMenu3 == 0) {
+			printMenu(options, currentOption, k);
+			textAlignCenter("MANAGE STUDENT MENU", 40, 40, 4);
+			drawBox(40, 10, 40, 7);
+			key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
+
+			switch (key) {
+			case 'w':
+				if (currentOption > 0) {
+					currentOption--;
+				}
+				break;
+			case 's':
+				if (currentOption < options.size() - 1) {
+					currentOption++;
+				}
+				break;
+			case 13: // Enter
+				if (currentOption == 1) { // Chọn Option 2
+					onMenu3 = 2; // Đặt biến onMenu thành false để chuyển đến trang mới
+				}
+				if (currentOption == 0) {//.Option 1
+					onMenu3 = 1;
+				}
+				if (currentOption == 2) {//.OP 3
+					onMenu3 = 3;
+				}
+				if (currentOption == 3) {
+					// Nut back
+					onMenu3 = 100;
+					key = 'q';
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		else if (onMenu3 == 2) { //.Option2
+			// Ham create class
+		}
+		else if (onMenu3 == 1) {
+			system("cls");
+			cout << "<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>" << endl;
+			system("pause");
+
+			// Ham school year information
+		}
+		else if (onMenu3 == 100) {
+			// T tính exit thì nó quay lại cái hàm staff menu nó chạy, mà thấy hơi kì. Ai sửa chỗ này đi nha
+			StaffMenu();
+			break;
+		}
+	} while (key != 'q');
+}
+
+// Option 5
+void Setting() {
+	vector<string> options = { "Change password", "Log out", "Exit" };
+	int currentOption = 0;
+	int onMenu = 0;
+	char key;
+	do {
+		int k = 9;
+		if (onMenu == 0) {
+			printMenu(options, currentOption, k);
+			textAlignCenter("SETTING", 40, 40, 4);
+			drawBox(40, 10, 40, 7);
+			key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
+
+			switch (key) {
+			case 'w':
+				if (currentOption > 0) {
+					currentOption--;
+				}
+				break;
+			case 's':
+				if (currentOption < options.size() - 1) {
+					currentOption++;
+				}
+				break;
+			case 13: // Enter
+				if (currentOption == 1) { // Chọn Option 2
+					onMenu = 2; // Đặt biến onMenu thành false để chuyển đến trang mới
+				}
+				if (currentOption == 0) {//.Option 1
+					onMenu = 1;
+				}
+				if (currentOption == 2) {
+					// Nut back
+					onMenu = 100;
+					key = 'q';
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		else if (onMenu == 2) { //.Option2
+			logout();
+			// Chua xong
+			loginUI();
+		}
+		else if (onMenu == 1) {
+			changePassword();
+			onMenu = 0;
+		}
+		else if (onMenu == 100) {
+			StaffMenu();
+			break;
+		}
+	} while (key != 'q');
+}
+

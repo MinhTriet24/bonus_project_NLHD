@@ -40,6 +40,5 @@ void getListClasses(string year)
 	//initList(listClasses);
 
 	string ext(".csv");
-	for()
 }
 void viewListOfClasses();

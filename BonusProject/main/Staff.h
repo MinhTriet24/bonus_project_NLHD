@@ -8,4 +8,6 @@ void Profile();
 void StaffMenu();
 void userAccount();
 void changePassword();
+void ManageStudentMenu();
+void Setting();
 #endif

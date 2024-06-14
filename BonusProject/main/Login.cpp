@@ -185,6 +185,17 @@ void StaffMenu() {
 			//.<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>
 			onMenu3 = 0;//.Sau ham se la: onMenu3 = 0 de khi ta nhan 'q' de thoat khoi ham(trang) do thi no se dat onMenu3=0 de in ra lai trang MẸ
 		}
+		else if (onMenu3 == 3) {
+			system("cls");
+			ManageStudentMenu();
+		}
+		else if (onMenu3 == 4) {
+
+		}
+		else if (onMenu3 == 5) {
+			system("cls");
+			Setting();
+		}
 		else if (onMenu3 == 100) {
 			break;
 		}
