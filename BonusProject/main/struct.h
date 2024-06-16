@@ -22,13 +22,12 @@
 using namespace std;
 //namespace fs = filesystem;
 
-
 struct Date {
 	int year;
 	int month;
 	int day;
 	string wDay;
-};
+};	
 struct User {
 	string id;
 	string password;
@@ -69,7 +68,6 @@ struct ListCourses {
 	Course* tail;
 	Date startDate, endDate;
 	int size;
-
 };
 struct CourseMark {
 	float otherMark = 0;
@@ -92,8 +90,6 @@ struct Student {
 	ListCourses enrolledCourses;
 	CourseMark courseMark;
 	SemesterMark semesterMark;
-	Student* prev;
-	Student* next;
 };
 struct ListStudent {
 	Student* head;
@@ -106,7 +102,6 @@ struct ListStudent {
 };
 struct Class {
 	string className;
-	/*fs::path path;*/
 	Class* prev;
 	Class* next;
 };

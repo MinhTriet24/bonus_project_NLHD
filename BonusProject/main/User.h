@@ -1,4 +1,3 @@
-#pragma once
 #ifndef User_h
 #define User_h
 #include "Struct.h"

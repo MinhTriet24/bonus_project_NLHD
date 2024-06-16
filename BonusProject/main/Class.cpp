@@ -27,7 +27,7 @@ void saveClass(string path, ListStudent listStudent)
 		string dateOfBirth = to_string(cur->dateOfBirth.day) + "/" + to_string(cur->dateOfBirth.month) + "/" + to_string(cur->dateOfBirth.year);
 		fOut << no << "," << cur->studentID << "," << cur->lastName << "," << cur->firstName << "," << cur->gender << "," << dateOfBirth << "," << cur->socialID << "," << cur->academicYear;
 		no++;
-		cur = cur->next;
+		// cur = cur->next;
 		if (cur == NULL) cout << endl;
  	}
 	fOut.close();
