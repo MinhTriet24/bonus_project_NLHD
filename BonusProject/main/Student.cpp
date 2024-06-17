@@ -264,17 +264,45 @@ void saveDataOfListStudent(string currentClass, ListStudent *list) {
 
 	fOut << "N0, Student ID, Last Name, First Name, Gender, Date of birth, Social ID, Other Mark, Midterm Mark, Final Mark" << endl;
 	NodeStudent* curr = list->head;
+	int i = 1;
 	while (curr != NULL) {
 		string dateOfBirth = to_string(curr->studentInfo.dateOfBirth.day) + "/" + to_string(curr->studentInfo.dateOfBirth.month) + "/" + to_string(curr->studentInfo.dateOfBirth.year);
-		fOut << curr->studentInfo.studentID << "," << curr->studentInfo.lastName << "," << curr->studentInfo.firstName << ","
+		fOut << i << "," << curr->studentInfo.studentID << "," << curr->studentInfo.lastName << "," << curr->studentInfo.firstName << ","
 			<< curr->studentInfo.gender << "," << dateOfBirth << "," << curr->studentInfo.socialID << "," << curr->studentInfo.otherMark
 			<< "," << curr->studentInfo.midtermMark << "," << curr->studentInfo.finalMark;
 		curr = curr->next;
+		i++;
 		if (curr != NULL) {
 			fOut << endl;
 		}
 	
 	}
+	cout << "Success" << endl;
 	fOut.close();
 
+}
+
+void removeStudentFollowID(ListStudent*& list, string ID) {
+	NodeStudent* current = list->head;
+	NodeStudent* prev = NULL;
+	while (current != NULL) {
+		if (current->studentInfo.studentID == ID) {
+			NodeStudent* temp = current;
+			if (prev == NULL) {
+				//  node prev == NULL, nghĩa là current đang ở node đầu
+				list->head = current->next;
+				current = current->next;
+			}
+			else {
+				prev->next = current->next;
+				current = current->next;
+			}
+			delete temp;
+		}
+		else {
+			// Cập nhật node prev đi theo node current
+			prev = current;
+			current = current->next;
+		}
+	}
 }

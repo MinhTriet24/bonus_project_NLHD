@@ -18,5 +18,5 @@ NodeStudent* createNewNodeStudent(Student& st);
 void InitListStundent(ListStudent *&list);
 void addStudentIntoListStudent(ListStudent*& list, Student newStudent);
 void saveDataOfListStudent(string currentClass);
-
+void removeStudentFollowID(List *&list, string ID);
 #endif

@@ -99,7 +99,6 @@ struct ListStudent {
 };
 struct Class {
 	string className;
-	Class* prev;
 	Class* next;
 };
 struct ListClasses {
