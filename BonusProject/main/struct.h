@@ -69,16 +69,6 @@ struct ListCourses {
 	Date startDate, endDate;
 	int size;
 };
-struct CourseMark {
-	float otherMark = 0;
-	float midtermMark = 0;
-	float finalMark = 0;
-	float totalMark = 0;
-};
-struct SemesterMark {
-	float GPA = 0;
-	float overallGPA = 0;
-};
 struct Student {
 	string studentID;
 	string lastName;
@@ -87,13 +77,20 @@ struct Student {
 	string socialID;
 	Date dateOfBirth;
 	int academicYear;
-	ListCourses enrolledCourses;
-	CourseMark courseMark;
-	SemesterMark semesterMark;
+	double otherMark;
+	double midtermMark;
+	double finalMark;
+	double avrMark;
+	double GPA;
+	double avrGPA;
+};
+struct NodeStudent {
+	Student studentInfo;
+	NodeStudent* next;
 };
 struct ListStudent {
-	Student* head;
-	Student* tail;
+	NodeStudent* head;
+	NodeStudent* tail;
 	string program;
 	string className;
 	string year;

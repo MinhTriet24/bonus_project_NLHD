@@ -81,7 +81,6 @@ void StaffMenu() {
 		}
 		else if (onMenu3 == 5) {
 			system("cls");
-			// Setting();
 		}
 		else if (onMenu3 == 100) {
 			break;
