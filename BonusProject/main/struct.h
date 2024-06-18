@@ -87,6 +87,9 @@ struct Semester {
 	int semester;
 	Date startDate, endDate;
 };
+struct Registration{
+	Date startDate, endDate;
+};
 //oo THANH
 struct Student {
 	string studentID;
