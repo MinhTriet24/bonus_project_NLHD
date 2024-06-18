@@ -243,4 +243,20 @@ void printMenu(const vector<string>& options, int currentOption, int k) {//.Ham 
 		}
 	}
 }
-	
+Date CurrentDate() {
+	// Lấy thời gian hiện tại
+	std::time_t t = std::time(nullptr);
+	// Khởi tạo cấu trúc tm
+	std::tm now;
+	// Chuyển đổi sang cấu trúc tm sử dụng localtime_s
+	localtime_s(&now, &t);
+
+	// In ra ngày tháng hiện tại
+	// Tạo đối tượng Date và gán các giá trị
+	Date d;
+	d.day = now.tm_mday;
+	d.month = now.tm_mon + 1;
+	d.year = now.tm_year + 1900;
+
+	return d;
+}
