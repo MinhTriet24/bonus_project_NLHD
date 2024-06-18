@@ -22,12 +22,13 @@
 using namespace std;
 //namespace fs = filesystem;
 
+
 struct Date {
 	int year;
 	int month;
 	int day;
 	string wDay;
-};	
+};
 struct User {
 	string id;
 	string password;
@@ -46,29 +47,47 @@ struct ListUser {
 	User* tail;
 	int size;
 };
-struct Semester {
-	int semester;
-	Date startDate, endDate;
+struct CourseMark {
+	float otherMark = 0;
+	float midtermMark = 0;
+	float finalMark = 0;
+	float totalMark = 0;
+};
+struct SemesterMark {
+	float GPA = 0;
+	float overallGPA = 0;
+};
+struct Class {
+	string className;
+	/*fs::path path;*/
+	Class* prev;
+	Class* next;
+};
+struct ListClasses {
+	Class* head;
+	Class* tail;
+	int size;
 };
 struct Course {
 	string id;
 	string courseName;
 	string teacherName;
 	int credits;
-	int maxStudents = 50;
-	int numberRegistered = 0;
+	int numOfStudents;
+	int NumofEroller;
 	int academicYear;
-	string wDay;
+	string weekDay;
 	string session[2];
-	Course* prev;
-	Course* next;
+	Course* pNext;
 };
-struct ListCourses {
-	Course* head;
-	Course* tail;
+struct ListCourse {
+	Course* pHead;
+};
+struct Semester {
+	int semester;
 	Date startDate, endDate;
-	int size;
 };
+//oo THANH
 struct Student {
 	string studentID;
 	string lastName;
@@ -96,24 +115,16 @@ struct ListStudent {
 	string year;
 	int academicYear;
 	int size;
-};
-struct Class {
-	string className;
-	Class* next;
-};
-struct ListClasses {
-	Class* head;
-	Class* tail;
-	int size;
+
 };
 
+//
 extern User* currentUser;
 extern ListUser listUser;
 extern Date currentDate;
 extern string currentSchoolYear;
 extern Semester currentSemester;
 extern string semesterPath;
-extern ListCourses listCourses;
 extern string schoolYearPath;
 
 
