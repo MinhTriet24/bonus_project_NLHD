@@ -1,0 +1,4 @@
+﻿  Login.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\filesystem(13): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
+D:\Pj\bonus_project_NLHD\BonusProject\main\Login.cpp(36,13): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  main.vcxproj -> D:\Pj\bonus_project_NLHD\BonusProject\x64\Debug\main.exe
