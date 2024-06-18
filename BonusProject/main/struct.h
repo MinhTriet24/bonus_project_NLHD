@@ -1,138 +1,75 @@
-#ifndef _STRUCT_H_
-#define _STRUCT_H_
-// Tong hop cac struct
-
-#include<cstring>
-#include <algorithm>
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <iomanip>
-#include <conio.h>
-#include <windows.h>
-#include <functional>
-#include <time.h>
-#include <direct.h>
-#include <io.h>
-#include <filesystem>
-#include <sstream>
-#include <vector>
-
-//.Dau tien ta phai doc thong tin toan bo sinh vien vao listUser, hay listUser la co san (available). Va file user.csv chứa thong tin toan bo User( id, pass, Ten,..) 
-using namespace std;
-//namespace fs = filesystem;
-
-
-struct Date {
-	int year;
-	int month;
-	int day;
-	string wDay;
-};
-struct User {
-	string id;
-	string password;
-	string lastName;
-	string firstName;
-	string className;
-	string gender;
-	int academicYear;
-	bool isStaff;
+#include "struct.h"
+#include "Console.h"
+#include "User.h"
+#include "Login.h"
+#include "Student.h"
+#include"SchoolYear.h"
+const int yPos = 13;
+void initList(ListUser& list) {
+	list.head = NULL;
+	list.tail = NULL;
+	list.size = 0;
+}
+// Ham khoi tao 1 NODE users bang cach doc thong tin users tu file csv
+User* convertUserData(ifstream& data) {//.Doc thong tin 1 sinh vien ( vs bien truyen vao la chi vi cua con tro doc file) va tra ve 1 con tro User*
+	User* userData = new User;
 	Date dateOfBirth;
-	User* prev;
-	User* next;
-};
-struct ListUser {
-	User* head;
-	User* tail;
-	int size;
-};
-struct CourseMark {
-	float otherMark = 0;
-	float midtermMark = 0;
-	float finalMark = 0;
-	float totalMark = 0;
-};
-struct SemesterMark {
-	float GPA = 0;
-	float overallGPA = 0;
-};
-struct Class {
-	string className;
-	/*fs::path path;*/
-	Class* prev;
-	Class* next;
-};
-struct ListClasses {
-	Class* head;
-	Class* tail;
-	int size;
-};
-struct Course {
-	string id;
-	string courseName;
-	string teacherName;
-	int credits;
-	int numOfStudents;
-	int NumofEroller;
-	int academicYear;
-	string weekDay;
-	string session[2];
-	Course* pNext;
-};
-struct ListCourse {
-	Course* pHead;
-};
-struct Semester {
-	int semester;
-	Date startDate, endDate;
-};
-struct Registration{
-	Date startDate, endDate;
-};
-//oo THANH
-struct Student {
-	string studentID;
-	string lastName;
-	string firstName;
-	string gender;
-	string socialID;
-	Date dateOfBirth;
-	int academicYear;
-	double otherMark;
-	double midtermMark;
-	double finalMark;
-	double avrMark;
-	double GPA;
-	double avrGPA;
-};
-struct NodeStudent {
-	Student studentInfo;
-	NodeStudent* next;
-};
-struct ListStudent {
-	NodeStudent* head;
-	NodeStudent* tail;
-	string program;
-	string className;
-	string year;
-	int academicYear;
-	int size;
-
-};
-
-//
-extern User* currentUser;
-extern ListUser listUser;
-extern Date currentDate;
-extern string currentSchoolYear;
-extern Semester currentSemester;
-extern string semesterPath;
-extern string schoolYearPath;
-
-
-string dateToStr(Date date);
-int dayofweek(int d, int m, int y);
-Date strToDate(string str);
-
-#endif
+	string temp;
+	//.Bat dau doc thong tin sinh vien tu file vao
+	getline(data, userData->id, ',');
+	if (userData->id == "") return NULL;
+	getline(data, userData->password, ',');
+	getline(data, userData->lastName, ',');
+	getline(data, userData->firstName, ',');
+	getline(data, userData->className, ',');
+	getline(data, userData->gender, ',');
+	getline(data, temp, ',');
+	userData->dateOfBirth = strToDate(temp);
+	getline(data, temp, ',');
+	userData->academicYear = stoi(temp);
+	getline(data, temp, '\n');
+	if (temp == "TRUE") userData->isStaff = true;
+	else userData->isStaff = false;
+	userData->next = NULL;
+	userData->prev = NULL;
+	return userData;
+}
+//.Them 1 NODE vao cuoi dslk.--> OK!
+void addUser(ListUser& list, User* user) {
+	if (user == NULL) return;
+	if (list.head == NULL) {
+		list.head = list.tail = user;
+	}
+	else {
+		list.tail->next = user;
+		user->prev = list.tail;
+		list.tail = user;
+	}
+	list.size++;
+}
+const string useDataPath = "Data/Accounts/users.csv";
+//.Doc toan bo thong tin cac sinh vien va luu thong tin vao 1 dslk listUser --> OK!
+void getListUsers() {
+	ifstream fin(useDataPath);
+	string  data = "";//.cai nay hoi thua(k can thiet).-->co the bo cmnl!
+	getline(fin, data);// data luc nay chua toan bo noi dung file csv (co ca ki tu (\n) la xuong dong)-->data luc nay la toan bo noi dung cua file csv.
+	initList(listUser);
+	while (!fin.eof()) {//. duyet toi cuoi file csv thi dung.
+		addUser(listUser, convertUserData(fin));//.Them 1 Node=convertUserData(fin) vao cuoi listUser
+	}
+}
+void saveListUser() {
+	ofstream fout(useDataPath);
+	fout << "ID,Password,Last name,First name,Class,Gender,Date of Birth,Academic year,Staff" << endl;
+	User* curr = listUser.head;
+	while (curr != NULL) {
+		string dateOfBirth = to_string(curr->dateOfBirth.day) + "/" + to_string(curr->dateOfBirth.month) + "/" + to_string(curr->dateOfBirth.year);
+		fout << curr->id << "," << curr->password << "," << curr->lastName << "," << curr->firstName
+			<< "," << curr->className << "," << curr->gender << "," << dateOfBirth << "," << to_string(curr->academicYear) << ",";
+		if (curr->isStaff) fout << "TRUE";
+		else fout << "FALSE";
+		curr = curr->next;
+		if (curr != NULL) fout << endl;
+	}
+	fout.close();
+}
