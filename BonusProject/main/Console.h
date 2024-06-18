@@ -10,4 +10,5 @@
 	void notifyBox(string noti);
 	void textAlignCenter(string s, int left, int width, int y);
 	void printMenu(const vector<string>& options, int currentOption, int k);
+	Date CurrentDate();
 	#endif
