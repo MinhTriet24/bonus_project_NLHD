@@ -140,6 +140,22 @@ void changePassword() {
 		}
 }
 //.
+void appendNumberToCSV(const std::string& filePath, Course*temp) {
+	// Mở file .csv ở chế độ append (thêm vào cuối file)
+	ofstream fout(filePath, std::ios_base::app);
+
+	if (fout.is_open()) {
+			string session = temp->session[0] + "-" + temp->session[1];
+			fout << temp->id << "," << temp->courseName << "," << temp->teacherName << ","
+				<< temp->credits << "," << temp->academicYear << "," << temp->numOfStudents << ","
+				<< temp->NumofEroller << "," << temp->weekDay << "," << session;
+		fout.close();
+	}
+	else {
+		std::cerr << "Unable to open file";
+	}
+}
+//.
 void AddCourse(ListCourse& l, Course* p) {
 	if (l.pHead == NULL) {
 		l.pHead = p;
@@ -823,8 +839,8 @@ Course EnterCourse() {
 	Course course;
 	string session;
 	string id = course.id;
-	gotoXY(55, 7); cout << "Change Course";
 	hideCursor(false);
+	gotoXY(55, 7); cout << "Change Course";
 	gotoXY(45, 10); cout << "Course ID: ";
 	gotoXY(45, 11); cout << "Course name:";
 	gotoXY(45, 12); cout << "Teacher name: ";
@@ -907,7 +923,7 @@ void AddCourseMenu(ListCourse &l) {
 			Course course = EnterCourse();
 			Course* p = ConvertFromCourseToPointer(course);
 			AddCourse(l, p);
-			saveCourses("Data/Course/courses.csv", l);
+			appendNumberToCSV("Data/Course/courses.csv", p);
 			notifyBox("ADD COURSE COMPLETELY!");
 			onMenu3 = 0;//.Sau ham se la: onMenu3 = 0 de khi ta nhan 'q' de thoat khoi ham(trang) do thi no se dat onMenu3=0 de in ra lai trang MẸ
 		}
@@ -1166,13 +1182,37 @@ void PrintSemester(Semester s) {
 	gotoXY(48, yPos);  cout << "End Date: " << s.endDate.day << "/" << s.endDate.month << "/" << s.endDate.year;
 	yPos++;
 }
+void CreateRegistration(Registration& s) {
+	cout << "Start date: ";
+	cout << endl << "Enter day: ";
+	cin >> s.startDate.day;
+	cout << endl << "Enter month: ";
+	cin >> s.startDate.month;
+	cout << endl << "Enter year: ";
+	cin >> s.startDate.year;
+	cout << "End date: ";
+	cout << endl << "Enter day: ";
+	cin >> s.endDate.day;
+	cout << endl << "Enter month: ";
+	cin >> s.endDate.month;
+	cout << endl << "Enter year: ";
+	cin >> s.endDate.year;
+
+}
+void SaveRegistration(Registration s, string path) {
+	ofstream fout(path);
+	fout << s.startDate.day << "/" << s.startDate.month << "/" << s.startDate.year << endl;
+	fout << s.endDate.day << "/" << s.endDate.month << "/" << s.endDate.year;
+	fout.close();
+}
 void ManageCourses() {
-	vector<string> options = { "Create Semester","Create Registration Session","Add Courses ","List Courses","Semester Summary","Back" };
+	vector<string> options = { "Create Semester","Create Registration Session","Add Courses ","List Courses", "Back" };
 	int currentOption = 0;
 	int onMenu3 = 0;
 	string path = "Data/Course/courses.csv";
 	string path1 = "Data/Semester/semester.txt";
 	Semester s;
+	Registration r;
 	int ans = 0;
 	char key;
 	int check = 0;
@@ -1209,10 +1249,7 @@ void ManageCourses() {
 				if (currentOption == 3) {
 					onMenu3 = 4;
 				}
-				if (currentOption == 4) {
-					onMenu3 = 5;
-				}
-				if (currentOption == 5) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
+				if (currentOption == 4) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
 					onMenu3 = 100;
 					key = 'q';
 				}
@@ -1230,6 +1267,7 @@ void ManageCourses() {
 			system("cls");
 			if (check == 0) {
 				CreateSemester1(s, path1, check);
+				SaveSemester(s, "Data/Semester/semester.txt");
 				check++;
 				options[0] = "Semester Information";
 			}
@@ -1239,6 +1277,14 @@ void ManageCourses() {
 				system("pause");
 			}
 			onMenu3 = 0;
+		}
+		else if (onMenu3 == 2) {
+			system("cls");
+			CreateRegistration(r);
+			SaveRegistration(r, "Data/Semester/RegistrationCourse.txt");
+			notifyBox("CREATED REGISTRATION COURSE!");
+			onMenu3 = 0;
+
 		}
 		else if (onMenu3 == 4) {
 			if (l.pHead == NULL) {
