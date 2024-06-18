@@ -1,10 +1,59 @@
-#ifndef Staff_h
-#define Staff_h
+#pragma once
+#ifndef Header_h
+#define Header_h
 #include"struct.h"
 const char cursorLeft = char(175);
 const char cursorRight = char(174);
-
+void Profile();
 void StaffMenu();
-void ManageStudentMenu();
-void ManageCourse();
+void userAccount();
+void changePassword();
+void logout();
+void AddCourse(ListCourse& l, Course* p);
+void ReadFileGetList(ListCourse& l, string fileName);
+int CountCourse(ListCourse l);
+void PrintTitle();
+void PrintListCourse(ListCourse l);
+void PrintCourseInLine(Course tmp1, int& x, int& y);
+void printMenu1(Course* options, int size, int currentOption);
+Course* GetPreviuosCourse(ListCourse l, Course* p);
+void saveCourses(string path, ListCourse& l);
+
+void DeleteCourse(ListCourse& l, Course p, string path);
+void printMenu3(const vector<string>& options, int currentOption, int k);
+void Upper(string& s);
+Course* ConvertToArr(ListCourse l);
+void AddTail(ListCourse& l, Course* c);
+Course* ConvertFromCourseToPointer(Course c);
+void ConvertFromArrToList(ListCourse& l, Course* c);
+void ChangeCourse(ListCourse& l, string path, int ans);
+void Detail(ListCourse& l, int ans);
+void ListOfStudentInCourse(string listFileName[], int ans);
+void DispalyAfterChooseOneCourse(int ans, ListCourse& l, string path);
+void ListCourseOptions(ListCourse& l, int& ans, string path);
+void ManageCourses();
+void removeStudentFollowID(ListStudent*& list, string ID);
+
+void AddStudent(ListStudent* l, string FileName[], int ans);
+void ViewScoreboard(ListStudent* l, string listFileName[], int ans);
+void ScoreListstudentOfClass(ListStudent* l);
+void ImportScoreboard(ListStudent* l, string listFileName[], int ans);
+void ExportToCSV(ListStudent* l);
+void PrintListstudentOfClass(ListStudent* l);
+void saveDataOfListStudent2(string currentClass, ListStudent* list);
+void saveDataOfListStudent(string currentClass, ListStudent* list);
+ListStudent* loadFileDataOfStudent(string ListFileName[], int ans);
+double strToDouble(string& s);
+void addStudentIntoListStudent(ListStudent*& list, Student st);
+NodeStudent* createNewNodeStudent(Student& st);
+void InitListStudent(ListStudent*& list);
+Student EnterStudent();
+
+
+
+
+
+
+
+
 #endif
