@@ -5,10 +5,7 @@
 void loginSystem();
 void loginUI();
 User* login(string id, string password);
+void StaffMenu();
 string getPassword(bool isHidden);
-void userAccount();
-void Profile();
-void changePassword();
-void logout();
-void Setting();
+void StudentMenu();
 #endif
