@@ -100,12 +100,11 @@ void loginUI() {
 	const int height = 10;
 	const int left = 40;
 	const int top = 10;
-
+	Date currDate = CurrentDate();
 	drawBox(width, height, left, top);
 	textAlignCenter("HCMUS PORTAL", left, width, 6);
 	textAlignCenter("LOGIN", left, width, 7);
-	gotoXY(40, 8); cout << currentDate.wDay;
-	gotoXY(40, 9); cout << dateToStr(currentDate);
+	gotoXY(40, 9); cout << dateToStr(currDate);
 	gotoXY(48, yPos);
 	cout << "ID:";
 	gotoXY(48, yPos + 2);
@@ -121,7 +120,8 @@ void loginUI() {
 	currentUser = login(id, password);
 }
 void StaffMenu() {
-	vector<string> options = { "User account","Profile","Manage Student","Manage Course","Setting","Exit" };
+	Date currDate = CurrentDate();
+	vector<string> options = { "User account","Profile","Manage Student","Manage Course","Exit" };
 	int currentOption = 0;
 	int onMenu3 = 0;
 	char key;
@@ -132,6 +132,7 @@ void StaffMenu() {
 			textAlignCenter("STAFF MENU", 40, 40, 4);
 			gotoXY(75, 5); cout << "Welcome ";
 			gotoXY(75, 6); cout << currentUser->lastName << " " << currentUser->firstName;
+			gotoXY(40, 6); cout << dateToStr(currDate);
 			drawBox(40, 10, 40, 7);
 			key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
 
@@ -158,11 +159,8 @@ void StaffMenu() {
 				}
 				if (currentOption == 3) {
 					onMenu3 = 4;
-				}
-				if (currentOption == 4) {
-					onMenu3 = 5;
-				}
-				if (currentOption == 5) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
+				}			
+				if (currentOption == 4) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
 					onMenu3 = 100;
 					key = 'q';
 				}
@@ -185,7 +183,7 @@ void StaffMenu() {
 		else if (onMenu3 == 4) {
 			system("cls");
 			ManageCourses();
-			system("pause");
+			/*system("pause");*/
 			onMenu3 = 0;
 		}
 		else if (onMenu3 == 100) {
@@ -195,7 +193,7 @@ void StaffMenu() {
 
 }
 void StudentMenu() {
-	vector<string> options = { "User account","Profile","Course Registration","Scoreboard","List of classes","List of courses","Setting","Exit" };
+	vector<string> options = { "User account","Profile","Scoreboard","List of courses","Exit" };
 	int currentOption = 0;
 	int onMenu3 = 0;
 	char key;
