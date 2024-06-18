@@ -11,8 +11,7 @@ void initList(ListUser& list) {
 	list.size = 0;
 }
 // Ham khoi tao 1 NODE users bang cach doc thong tin users tu file csv
-User* convertUserData(ifstream& data) {
-	//.Doc thong tin 1 sinh vien ( vs bien truyen vao la chi vi cua con tro doc file) va tra ve 1 con tro User*
+User* convertUserData(ifstream& data) {//.Doc thong tin 1 sinh vien ( vs bien truyen vao la chi vi cua con tro doc file) va tra ve 1 con tro User*
 	User* userData = new User;
 	Date dateOfBirth;
 	string temp;
