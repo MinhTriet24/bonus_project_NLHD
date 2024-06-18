@@ -1,10 +1,10 @@
+
 #include "Console.h"
 #include"struct.h"
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
 #include "SchoolYear.h"
-#include "Staff.h"	
 const int yPos = 13;
 //ListClasses listClasses;
 void getConsoleSize(int& width, int& height) {
@@ -177,7 +177,7 @@ void notifyBox(string noti)
 	yPos++;
 
 	gotoXY(45, yPos);
-	cout << "Press any key to continue...";
+	cout << noti;
 
 	_getch(); //dung man hinh, nguoi dung nhap ky tu bat ky thi tiep tuc
 	system("cls");
@@ -188,9 +188,6 @@ void loginSystem()
 	//xoa man hinh va load cac du lieu co san tu file
 	system("cls");
 	getListUsers();
-	getCurrentSchoolYear();
-	getCurrentSemester();
-	getListCourses();
 	schoolYearPath = "./data/" + currentSchoolYear;// tao duong dan den file nam hoc hien tai
 
 	//vong lap de thao tac voi giao dien dang nhap
@@ -213,6 +210,7 @@ void loginSystem()
 
 	if (currentUser->isStaff) //la staff thi chuyen sang giao dien cua staff
 	{
+		//staffMenu();
 		StaffMenu();
 	}
 	else //nguoc lai la giao dien cua student
