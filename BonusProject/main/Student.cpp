@@ -7,10 +7,12 @@
 #include"User.h"
 
 void StudentMenu() {
-	vector<string> options = { "User account","Profile","Course Registration","Scoreboard","List of classes","List of courses","Setting","Exit" };
+	vector<string> options = { "User account","Profile","Scoreboard","List of courses","Setting","Exit" };
 	int currentOption = 0;
 	int onMenu3 = 0;
 	char key;
+	ListScoreBoard l;
+	ListCourse hisCourse;
 	textAlignCenter("STUDENT MENU", 40, 10, 5);
 	do {
 		int k = 9;
@@ -49,13 +51,8 @@ void StudentMenu() {
 				if (currentOption == 4) {
 					onMenu3 = 5;
 				}
-				if (currentOption == 5) {
-					onMenu3 = 6;
-				}
-				if (currentOption == 6) {
-					onMenu3 = 7;
-				}
-				if (currentOption == 7) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
+				if (currentOption == 5) { // Option Exit
+					//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
 					onMenu3 = 100;
 					key = 'q';
 				}
@@ -73,236 +70,196 @@ void StudentMenu() {
 		else if (onMenu3 == 1) {
 			system("cls");
 			userAccount();
-			cout << "<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>" << endl;
-			system("pause");
-			//.<Goi ham la trang khi ma chon vao 1 OPTION co onMenu3=1 (OPTION 1)>
-			onMenu3 = 0;//.Sau ham se la: onMenu3 = 0 de khi ta nhan 'q' de thoat khoi ham(trang) do thi no se dat onMenu3=0 de in ra lai trang MẸ
+			// change password nhma chưa lưu
+			onMenu3 = 0;
 		}
 		else if (onMenu3 == 100) {
 			break;
 		}
 		else if (onMenu3 == 3) {
 			system("cls");
-			// courseRegistationMenu();
+			findStudentIDInCourse(currentUser->id, l);
+			DisplayScoreBoard(l);
+			cout << endl;
 			system("pause");
 			onMenu3 = 0;
 		}
 		else if (onMenu3 == 4) {
-
+			system("cls");
+			findStudentIDInCourse2(currentUser->id, hisCourse);
+			PrintListCourse(hisCourse);
+			cout << endl;
+			system("pause");
+			onMenu3 = 0;
 		}
 		else if (onMenu3 == 5) {
-
-		}
-		else if (onMenu3 == 6) {
-
-		}
-		else if (onMenu3 == 7) {
-
+			// Setting
 		}
 	} while (key != 'q');
 
 }
 
-//void courseRegistationMenu(){
-//	vector<string> options = { "Register Course","View Enrolled Courses" };
-//	int currentOption = 0;
-//	int onMenu3 = 0;
-//	char key;
-//	textAlignCenter("Course Registration", 40, 10, 5);
-//	do {
-//		int k = 9;
-//		if (onMenu3 == 0) {
-//			printMenu(options, currentOption, k);
-//			textAlignCenter("Course Registration", 40, 40, 6);
-//			drawBox(40, 10, 40, 7);
-//			key = _getch(); // Nhận phím từ người dùng mà không cần nhấn Enter
-//
-//			switch (key) {
-//			case 'w':
-//				if (currentOption > 0) {
-//					currentOption--;
-//				}
-//				break;
-//			case 's':
-//				if (currentOption < options.size() - 1) {
-//					currentOption++;
-//				}
-//				break;
-//			case 13: // Enter
-//				if (currentOption == 1) { // Chọn Option 2
-//					onMenu3 = 2; // Đặt biến onMenu thành false để chuyển đến trang mới
-//				}
-//				if (currentOption == 0) {//.Option 1
-//					onMenu3 = 1;
-//				}
-//				if (currentOption == 2) {
-//					//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
-//					onMenu3 = 100;
-//					key = 'q';
-//				}
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//		else if (onMenu3 == 1) {
-//			system("cls");
-//			cout << "Hiện lên danh sách môn để đăng ký" << endl;
-//			system("pause");
-//			onMenu3 = 0;
-//		}
-//		else if (onMenu3 == 2) {
-//			system("cls");
-//			cout << "Hiện lên danh sách lớp đã đăng ký" << endl;
-//			system("pause");
-//			onMenu3 = 0;
-//		}
-//		else if (onMenu3 == 100) {
-//			break;
-//		}
-//	} while (key != 'q');
-//
-// 
-//}
-
-void InitListStudent(ListStudent*& list) {
-	list = new ListStudent;
-	list->head = list->tail = NULL;
-	/*list->academicYear = 0;
-	list->className = "";
-	list->program = "";
-	list->year = "";
-	list->size = 0;*/
+NodeScoreBoard* makeNode(ScoreBoard sb) {
+	NodeScoreBoard* newScoreBoard = new NodeScoreBoard;
+	newScoreBoard->data = sb;
+	newScoreBoard->next = NULL;
+	return newScoreBoard;
 }
-
-NodeStudent* createNewNodeStudent(Student& st) {
-	NodeStudent* newStudent = new NodeStudent;
-	newStudent->studentInfo = st;
-	newStudent->next = NULL;
-	return newStudent;
+void initListScoreBoard(ListScoreBoard& l) {
+	l.head = l.tail = NULL;
 }
-
-void addStudentIntoListStudent(ListStudent*& list, Student st) {
-	NodeStudent* newStudent = createNewNodeStudent(st);
-	if (list->head == NULL && list->tail == NULL) {
-		list->head = list->tail = newStudent;
+void addScoreBoard(ListScoreBoard& l, ScoreBoard sb) {
+	NodeScoreBoard* newScoreBoard = makeNode(sb);
+	if (l.head == NULL && l.tail == NULL) {
+		l.head = l.tail = newScoreBoard;
 	}
 	else {
-		list->tail->next = newStudent;
-		list->tail = newStudent;
+		l.tail->next = newScoreBoard;
+		l.tail = newScoreBoard;
 	}
 }
-
-double strToDouble(string& s) {
-	return stod(s);
+double avrMark(Student st) {
+	return (st.otherMark * 0.2 + st.midtermMark * 0.3 + st.finalMark * 0.5);
 }
-
-ListStudent* loadFileDataOfStudent(string currentClass)
-{
-	// Chỗ này là mình set đường dẫn
-	string classPath = "D:/" + currentClass + ".csv";
-
+void findStudentIDInCourse(string ID, ListScoreBoard& l) {
+	string classOfCourse[11] = { "classOfCourse1", "classOfCourse2", "classOfCourse3", "classOfCourse4" , "classOfCourse5", "classOfCourse6" , "classOfCourse7" , "classOfCourse8" , "classOfCourse9" , "classOfCourse10" };
+	ListCourse NameOfCourse;
+	ReadFileGetList(NameOfCourse, "D:/bonus_project_NLHD/BonusProject/main/Data/Course/courses.csv");
 	ifstream fIn;
-	fIn.open(classPath);
-	if (!fIn.is_open())
-	{
-		cout << "Cant open this file" << endl;
-		return NULL;
-	}
 
-	ListStudent* studentsInCurrentClass = new ListStudent[150];
-	InitListStudent(studentsInCurrentClass);
+	initListScoreBoard(l);
 
-	// Đọc qua dòng đầu chứa các tiêu đề
-	string tmpData;
-	getline(fIn, tmpData, '\n');
-	while (getline(fIn, tmpData)) {
-		istringstream ss(tmpData);
-		Student newStudent;
-		string s, dateOfBirth;
-		string otherScore, midScore, finalScore;
+	Course* tmp = NameOfCourse.pHead;
+	int i = 0;
 
-		getline(ss, s, ',');
-		if (s == "") break;
 
-		getline(ss, newStudent.studentID, ',');
-		getline(ss, newStudent.lastName, ',');
-		getline(ss, newStudent.firstName, ',');
-		getline(ss, newStudent.gender, ',');
-		getline(ss, dateOfBirth, ',');
-		newStudent.dateOfBirth = strToDate(dateOfBirth);
-		getline(ss, newStudent.socialID, ',');
+	while (tmp != NULL) {
+		string path = "D:/bonus_project_NLHD/BonusProject/main/Data/StudentOfCourses/" + classOfCourse[i] + ".csv";
+		fIn.open(path);
+		if (!fIn.is_open()) {
+			break;
+		}
 
-		getline(ss, otherScore, ',');
-		newStudent.otherMark = strToDouble(otherScore);
+		string tmpData;
+		getline(fIn, tmpData, '\n');
+		while (getline(fIn, tmpData)) {
+			istringstream ss(tmpData);
+			Student stTemp;
+			Course* belongToHim;
+			ScoreBoard newScoreBoard;
+			string s, dateOfBirth;
+			string otherScore, midScore, finalScore;
 
-		getline(ss, midScore, ',');
-		newStudent.midtermMark = strToDouble(midScore);
+			getline(ss, s, ',');
+			if (s == "") break;
 
-		getline(ss, finalScore, '\n');
-		newStudent.finalMark = strToDouble(finalScore);
+			getline(ss, stTemp.studentID, ',');
+			getline(ss, stTemp.lastName, ',');
+			getline(ss, stTemp.firstName, ',');
+			getline(ss, stTemp.gender, ',');
+			getline(ss, dateOfBirth, ',');
+			getline(ss, stTemp.socialID, ',');
+			getline(ss, otherScore, ',');
+			stTemp.otherMark = strToDouble(otherScore);
+			getline(ss, midScore, ',');
+			stTemp.midtermMark = strToDouble(midScore);
+			getline(ss, finalScore, '\n');
+			stTemp.finalMark = strToDouble(finalScore);
 
-		addStudentIntoListStudent(studentsInCurrentClass, newStudent);
-	}
-
-	cout << "Doc file thanh cong" << endl;
-	fIn.close();
-	return studentsInCurrentClass;
-}
-
-void saveDataOfListStudent(string currentClass, ListStudent *list) {
-
-	// Cho người dùng nhập tên lớp
-	string classPath = "D:/" + currentClass + ".csv";
-
-	ofstream fOut;
-	fOut.open(classPath);
-	if (!fOut.is_open()) {
-		cout << "Can't open this file. " << endl;
-		return;
-	}
-
-	fOut << "N0, Student ID, Last Name, First Name, Gender, Date of birth, Social ID, Other Mark, Midterm Mark, Final Mark" << endl;
-	NodeStudent* curr = list->head;
-	int i = 1;
-	while (curr != NULL) {
-		string dateOfBirth = to_string(curr->studentInfo.dateOfBirth.day) + "/" + to_string(curr->studentInfo.dateOfBirth.month) + "/" + to_string(curr->studentInfo.dateOfBirth.year);
-		fOut << i << "," << curr->studentInfo.studentID << "," << curr->studentInfo.lastName << "," << curr->studentInfo.firstName << ","
-			<< curr->studentInfo.gender << "," << dateOfBirth << "," << curr->studentInfo.socialID << "," << curr->studentInfo.otherMark
-			<< "," << curr->studentInfo.midtermMark << "," << curr->studentInfo.finalMark;
-		curr = curr->next;
+			if (stTemp.studentID == ID) {
+				newScoreBoard.nameCourse = tmp->courseName;
+				newScoreBoard.otherMark = stTemp.otherMark;
+				newScoreBoard.midtermMark = stTemp.midtermMark;
+				newScoreBoard.finalMark = stTemp.finalMark;
+				newScoreBoard.avrMark = avrMark(stTemp);
+				addScoreBoard(l, newScoreBoard);
+				break;
+			}
+		}
+		fIn.close();
+		tmp = tmp->pNext;
 		i++;
-		if (curr != NULL) {
-			fOut << endl;
-		}
-	
 	}
-	cout << "Success" << endl;
-	fOut.close();
-
+}
+void DisplayScoreBoard(ListScoreBoard l)
+{
+	int x = 16, y = 4;
+	gotoXY(x, y);
+	cout << "Course Name";
+	x += 30;
+	gotoXY(x, y);
+	cout << "Other Mark";
+	x += 15;
+	gotoXY(x, y);
+	cout << "Midterm Mark";
+	x += 15;
+	gotoXY(x, y);
+	cout << "Final Mark";
+	x += 15;
+	gotoXY(x, y);
+	cout << "Avr Mark";
+	NodeScoreBoard* tmp1 = l.head;
+	x = 16, y++;
+	while (tmp1 != NULL) {
+		gotoXY(x, y);
+		cout << tmp1->data.nameCourse;
+		x += 35;
+		gotoXY(x, y);
+		cout << tmp1->data.otherMark;
+		x += 15;
+		gotoXY(x, y);
+		cout << tmp1->data.midtermMark;
+		x += 15;
+		gotoXY(x, y);
+		cout << tmp1->data.finalMark;
+		x += 13;
+		gotoXY(x, y);
+		cout << tmp1->data.avrMark;
+		y++;
+		x = 16;
+		tmp1 = tmp1->next;
+	}
 }
 
-void removeStudentFollowID(ListStudent*& list, string ID) {
-	NodeStudent* current = list->head;
-	NodeStudent* prev = NULL;
-	while (current != NULL) {
-		if (current->studentInfo.studentID == ID) {
-			NodeStudent* temp = current;
-			if (prev == NULL) {
-				//  node prev == NULL, nghĩa là current đang ở node đầu
-				list->head = current->next;
-				current = current->next;
-			}
-			else {
-				prev->next = current->next;
-				current = current->next;
-			}
-			delete temp;
+void findStudentIDInCourse2(string ID, ListCourse& hisCourse) {
+	string classOfCourse[11] = { "classOfCourse1", "classOfCourse2", "classOfCourse3", "classOfCourse4" , "classOfCourse5", "classOfCourse6" , "classOfCourse7" , "classOfCourse8" , "classOfCourse9" , "classOfCourse10" };
+	ListCourse NameOfCourse;
+	ReadFileGetList(NameOfCourse, "D:/bonus_project_NLHD/BonusProject/main/Data/Course/courses.csv");
+	ifstream fIn;
+
+	hisCourse.pHead = NULL;
+
+	Course* tmp = NameOfCourse.pHead;
+	int i = 0;
+
+
+	while (tmp != NULL) {
+		string path = "D:/bonus_project_NLHD/BonusProject/main/Data/StudentOfCourses/" + classOfCourse[i] + ".csv";
+		fIn.open(path);
+		if (!fIn.is_open()) {
+			break;
 		}
-		else {
-			// Cập nhật node prev đi theo node current
-			prev = current;
-			current = current->next;
+
+		string tmpData;
+		getline(fIn, tmpData, '\n');
+		while (getline(fIn, tmpData)) {
+			istringstream ss(tmpData);
+			string s;
+			Student stTemp;
+
+			getline(ss, s, ',');
+			if (s == "") break;
+
+			getline(ss, stTemp.studentID, ',');
+
+			if (stTemp.studentID == ID) {
+				// Chưa biết sai gì
+				AddCourse(hisCourse, tmp);
+				break;
+			}
 		}
+		fIn.close();
+		tmp = tmp->pNext;
+		i++;
 	}
 }

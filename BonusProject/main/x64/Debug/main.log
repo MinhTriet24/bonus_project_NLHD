@@ -1,11 +1,4 @@
 ﻿  Student.cpp
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\filesystem(12): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(135,12): warning C4566: character represented by universal-character-name '\u1EC7' cannot be represented in the current code page (1252)
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(135,12): warning C4566: character represented by universal-character-name '\u0111' cannot be represented in the current code page (1252)
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(135,12): warning C4566: character represented by universal-character-name '\u1EC3' cannot be represented in the current code page (1252)
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(135,12): warning C4566: character represented by universal-character-name '\u0103' cannot be represented in the current code page (1252)
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(141,12): warning C4566: character represented by universal-character-name '\u1EC7' cannot be represented in the current code page (1252)
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(141,12): warning C4566: character represented by universal-character-name '\u1EDB' cannot be represented in the current code page (1252)
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(141,12): warning C4566: character represented by universal-character-name '\u0111' cannot be represented in the current code page (1252)
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(141,12): warning C4566: character represented by universal-character-name '\u0103' cannot be represented in the current code page (1252)
+D:\bonus_project_NLHD\BonusProject\main\Student.cpp(148,12): warning C4101: 'belongToHim': unreferenced local variable
   main.vcxproj -> D:\bonus_project_NLHD\BonusProject\x64\Debug\main.exe

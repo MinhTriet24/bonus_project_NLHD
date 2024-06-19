@@ -47,19 +47,12 @@ struct ListUser {
 	User* tail;
 	int size;
 };
-struct CourseMark {
-	float otherMark = 0;
-	float midtermMark = 0;
-	float finalMark = 0;
-	float totalMark = 0;
-};
 struct SemesterMark {
 	float GPA = 0;
 	float overallGPA = 0;
 };
 struct Class {
 	string className;
-	/*fs::path path;*/
 	Class* prev;
 	Class* next;
 };
@@ -113,12 +106,21 @@ struct NodeStudent {
 struct ListStudent {
 	NodeStudent* head;
 	NodeStudent* tail;
-	string program;
-	string className;
-	string year;
-	int academicYear;
-	int size;
-
+};
+struct ScoreBoard {
+	string nameCourse;
+	double otherMark;
+	double midtermMark;
+	double finalMark;
+	double avrMark;
+};
+struct NodeScoreBoard {
+	ScoreBoard data;
+	NodeScoreBoard* next;
+};
+struct ListScoreBoard {
+	NodeScoreBoard* head;
+	NodeScoreBoard* tail;
 };
 
 //

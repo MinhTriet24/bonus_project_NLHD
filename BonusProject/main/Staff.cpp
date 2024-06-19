@@ -334,7 +334,8 @@ void PrintCourseInLine(Course tmp1, int& x, int& y) {
 	gotoXY(x, y);
 	cout << tmp1.session[0] << "-" << tmp1.session[1] << endl;
 }
-void printMenu1(Course* options, int size, int currentOption) {//.Ham nay dung de in ra MENU cua 1 trang con.
+void printMenu1(Course* options, int size, int currentOption) {
+	//.Ham nay dung de in ra MENU cua 1 trang con.
 	// dùng để xóa những gì đã hiển thị trên của sổ console , nghĩa là sau khi nhấn 1 trong các phím w /s thì nó sẽ chuyển sang 1 op khác nhưng cái dòng menu vs op cũ đc chọn vẫn còn nếu k dùng lệnh này, muốn rõ hơn thì xóa dòng này r chạy chương trình là biết.
 	system("cls");
 	int x = 0, y = 2;
@@ -600,11 +601,6 @@ Student EnterStudent() {
 void InitListStudent(ListStudent*& list) {
 	list = new ListStudent;
 	list->head = list->tail = NULL;
-	/*list->academicYear = 0;
-	list->className = "";
-	list->program = "";
-	list->year = "";
-	list->size = 0;*/
 }
 
 NodeStudent* createNewNodeStudent(Student& st) {
@@ -623,7 +619,7 @@ void addStudentIntoListStudent(ListStudent*& list, Student st) {
 		list->tail->next = newStudent;
 		list->tail = newStudent;
 	}
-}
+}	
 
 double strToDouble(string& s) {
 	return stod(s);
