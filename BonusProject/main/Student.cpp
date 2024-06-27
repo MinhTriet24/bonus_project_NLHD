@@ -1,13 +1,12 @@
 ﻿#include"Console.h"
 #include"Login.h"
-#include"SchoolYear.h"
 #include"Staff.h"
 #include"struct.h"
 #include"Student.h"
 #include"User.h"
 
 void StudentMenu() {
-	vector<string> options = { "User account","Profile","Scoreboard","List of courses","Setting","Exit" };
+	vector<string> options = { "User account","Profile","Scoreboard","List of courses","Exit" };
 	int currentOption = 0;
 	int onMenu3 = 0;
 	char key;
@@ -48,10 +47,7 @@ void StudentMenu() {
 				if (currentOption == 3) {
 					onMenu3 = 4;
 				}
-				if (currentOption == 4) {
-					onMenu3 = 5;
-				}
-				if (currentOption == 5) { // Option Exit
+				if (currentOption == 4) { // Option Exit
 					//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
 					onMenu3 = 100;
 					key = 'q';
@@ -70,11 +66,7 @@ void StudentMenu() {
 		else if (onMenu3 == 1) {
 			system("cls");
 			userAccount();
-			// change password nhma chưa lưu
 			onMenu3 = 0;
-		}
-		else if (onMenu3 == 100) {
-			break;
 		}
 		else if (onMenu3 == 3) {
 			system("cls");
@@ -91,9 +83,6 @@ void StudentMenu() {
 			cout << endl;
 			system("pause");
 			onMenu3 = 0;
-		}
-		else if (onMenu3 == 5) {
-			// Setting
 		}
 	} while (key != 'q');
 
@@ -124,7 +113,7 @@ double avrMark(Student st) {
 void findStudentIDInCourse(string ID, ListScoreBoard& l) {
 	string classOfCourse[11] = { "classOfCourse1", "classOfCourse2", "classOfCourse3", "classOfCourse4" , "classOfCourse5", "classOfCourse6" , "classOfCourse7" , "classOfCourse8" , "classOfCourse9" , "classOfCourse10" };
 	ListCourse NameOfCourse;
-	ReadFileGetList(NameOfCourse, "D:/bonus_project_NLHD/BonusProject/main/Data/Course/courses.csv");
+	ReadFileGetList(NameOfCourse, "Data/Course/courses.csv");
 	ifstream fIn;
 
 	initListScoreBoard(l);
@@ -134,7 +123,7 @@ void findStudentIDInCourse(string ID, ListScoreBoard& l) {
 
 
 	while (tmp != NULL) {
-		string path = "D:/bonus_project_NLHD/BonusProject/main/Data/StudentOfCourses/" + classOfCourse[i] + ".csv";
+		string path = "Data/StudentOfCourses/" + classOfCourse[i] + ".csv";
 		fIn.open(path);
 		if (!fIn.is_open()) {
 			break;
@@ -199,7 +188,7 @@ void DisplayScoreBoard(ListScoreBoard l)
 	gotoXY(x, y);
 	cout << "Avr Mark";
 	NodeScoreBoard* tmp1 = l.head;
-	x = 16, y++;
+	x = 16, y = y + 2;
 	while (tmp1 != NULL) {
 		gotoXY(x, y);
 		cout << tmp1->data.nameCourse;
@@ -224,7 +213,7 @@ void DisplayScoreBoard(ListScoreBoard l)
 void findStudentIDInCourse2(string ID, ListCourse& hisCourse) {
 	string classOfCourse[11] = { "classOfCourse1", "classOfCourse2", "classOfCourse3", "classOfCourse4" , "classOfCourse5", "classOfCourse6" , "classOfCourse7" , "classOfCourse8" , "classOfCourse9" , "classOfCourse10" };
 	ListCourse NameOfCourse;
-	ReadFileGetList(NameOfCourse, "D:/bonus_project_NLHD/BonusProject/main/Data/Course/courses.csv");
+	ReadFileGetList(NameOfCourse, "Data/Course/courses.csv");
 	ifstream fIn;
 
 	hisCourse.pHead = NULL;
@@ -234,10 +223,13 @@ void findStudentIDInCourse2(string ID, ListCourse& hisCourse) {
 
 
 	while (tmp != NULL) {
-		string path = "D:/bonus_project_NLHD/BonusProject/main/Data/StudentOfCourses/" + classOfCourse[i] + ".csv";
+		Course* set = tmp;
+		string path = "Data/StudentOfCourses/" + classOfCourse[i] + ".csv";
 		fIn.open(path);
 		if (!fIn.is_open()) {
-			break;
+			tmp = tmp->pNext;
+			i++;
+			continue;
 		}
 
 		string tmpData;
@@ -253,12 +245,12 @@ void findStudentIDInCourse2(string ID, ListCourse& hisCourse) {
 			getline(ss, stTemp.studentID, ',');
 
 			if (stTemp.studentID == ID) {
-				// Chưa biết sai gì
 				AddCourse(hisCourse, tmp);
 				break;
 			}
 		}
 		fIn.close();
+		tmp = set;
 		tmp = tmp->pNext;
 		i++;
 	}

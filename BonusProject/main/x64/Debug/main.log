@@ -1,4 +1,1 @@
-﻿  Student.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\filesystem(12): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(148,12): warning C4101: 'belongToHim': unreferenced local variable
-  main.vcxproj -> D:\bonus_project_NLHD\BonusProject\x64\Debug\main.exe
+﻿  main.vcxproj -> D:\bonus_project_NLHD\BonusProject\x64\Debug\main.exe

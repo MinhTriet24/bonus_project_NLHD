@@ -3,7 +3,7 @@
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
-#include"SchoolYear.h"
+
 const int yPos = 13;
 void initList(ListUser& list) {
 	list.head = NULL;

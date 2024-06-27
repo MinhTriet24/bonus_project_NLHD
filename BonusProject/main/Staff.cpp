@@ -1,7 +1,5 @@
-
 #include"Console.h"
 #include"Login.h"
-#include"SchoolYear.h"
 #include"Staff.h"
 #include"struct.h"
 #include"Student.h"
@@ -9,6 +7,9 @@
 using namespace std;
 //Sau khi login thi ta da co currentUser ,viec bay h chi la xuat CurrentUser ra
 const string path = "Data/Course/courses.csv";
+//định nghĩa biến toàn cục của các hàm liên quan đến list student dùng trong quản lí khóa học
+string studentYear = "";
+
 void Profile() {//.OPTION 2
 	int width = 40;
 	int height = 7;
@@ -48,7 +49,7 @@ void userAccount() {//.OPTION 1
 
 	int curPos = 0;
 	int yPos = 10;
-	vector<string> options = { "Change Password","Logout","Back"};
+	vector<string> options = { "Change Password","Logout","Back" };
 	int currentOption = 0;
 	int onMenu3 = 0;
 	char key;
@@ -115,40 +116,41 @@ void changePassword() {
 	string currentPassword;
 
 	hideCursor(false);
-	
-		system("cls");
-		gotoXY(55, 5); cout << "HCMUS Portal";
-		gotoXY(53, 7); cout << "Change Password";
-		gotoXY(45, yPos); cout << "Current password: ";
+
+	system("cls");
+	gotoXY(55, 5); cout << "HCMUS Portal";
+	gotoXY(53, 7); cout << "Change Password";
+	gotoXY(45, yPos); cout << "Current password: ";
+	yPos++;
+	yPos++;
+	getline(cin, currentPassword);
+	if (currentPassword == currentUser->password) {
+		gotoXY(45, yPos); cout << "New password: ";
 		yPos++;
-		yPos++;
-		getline(cin, currentPassword);
-		if (currentPassword == currentUser->password) {
-			gotoXY(45, yPos); cout << "New password: ";
-			yPos++;
-			string tmp;
-			getline(cin, tmp);
-			currentUser->password = tmp;
-			notifyBox("Successful");
-			hideCursor(true);
-			saveListUser();
-			return;
-		}
-		else {
-			gotoXY(45, 11); cout << "Wrong password!!!";
-			system("pause");
-		}
+		string tmp;
+		getline(cin, tmp);
+		currentUser->password = tmp;
+		notifyBox("Successful");
+		hideCursor(true);
+		saveListUser();
+		return;
+	}
+	else {
+		gotoXY(45, 11); cout << "Wrong password!!!";
+		system("pause");
+	}
 }
 //.
-void appendNumberToCSV(const std::string& filePath, Course*temp) {
+void appendNumberToCSV(const std::string& filePath, Course* temp) {
 	// Mở file .csv ở chế độ append (thêm vào cuối file)
 	ofstream fout(filePath, std::ios_base::app);
+	fout << endl;
 
 	if (fout.is_open()) {
-			string session = temp->session[0] + "-" + temp->session[1];
-			fout << temp->id << "," << temp->courseName << "," << temp->teacherName << ","
-				<< temp->credits << "," << temp->academicYear << "," << temp->numOfStudents << ","
-				<< temp->NumofEroller << "," << temp->weekDay << "," << session;
+		string session = temp->session[0] + "-" + temp->session[1];
+		fout << temp->id << "," << temp->courseName << "," << temp->teacherName << ","
+			<< temp->credits << "," << temp->academicYear << "," << temp->numOfStudents << ","
+			<< temp->NumofEroller << "," << temp->weekDay << "," << session;
 		fout.close();
 	}
 	else {
@@ -157,9 +159,20 @@ void appendNumberToCSV(const std::string& filePath, Course*temp) {
 }
 //.
 void AddCourse(ListCourse& l, Course* p) {
+	Course* tmp = new Course;
+	tmp->academicYear = p->academicYear;
+	tmp->courseName = p->courseName;
+	tmp->credits = p->credits;
+	tmp->id = p->id;
+	tmp->NumofEroller = p->NumofEroller;
+	tmp->numOfStudents = p->numOfStudents;
+	tmp->session[0] = p->session[0];
+	tmp->session[1] = p->session[1];
+	tmp->teacherName = p->teacherName;
+	tmp->pNext = NULL;
+
 	if (l.pHead == NULL) {
-		l.pHead = p;
-		l.pHead->pNext = NULL;
+		l.pHead = tmp;
 		return;
 	}
 	Course* k = l.pHead;
@@ -167,8 +180,7 @@ void AddCourse(ListCourse& l, Course* p) {
 
 		k = k->pNext;
 	}
-	k->pNext = p;
-	k->pNext->pNext = NULL;
+	k->pNext = tmp;
 }
 void ReadFileGetList(ListCourse& l, string fileName) {
 	l.pHead = NULL;
@@ -389,21 +401,21 @@ Course* GetPreviuosCourse(ListCourse l, Course* p) {
 	return NULL;
 
 }
-	void saveCourses(string path, ListCourse& l) {
-		ofstream fout(path);
-		fout << "Courses registration session:," << endl;
-		fout << "ID,Course name,Teacher name,Credits,Academic year,Number of students, Number of enroller,Day of the week,Session" << endl;
-		Course* temp = l.pHead;
-		while (temp != NULL) {
-			string session = temp->session[0] + "-" + temp->session[1];
-			fout << temp->id << "," << temp->courseName << "," << temp->teacherName << ","
-				<< temp->credits << "," << temp->academicYear << "," << temp->numOfStudents << ","
-				<< temp->NumofEroller << "," << temp->weekDay << "," << session;
-			temp = temp->pNext;
-			if (temp != NULL) fout << endl;
-		}
-		fout.close();
+void saveCourses(string path, ListCourse& l) {
+	ofstream fout(path);
+	fout << "Courses registration session:," << endl;
+	fout << "ID,Course name,Teacher name,Credits,Academic year,Number of students, Number of enroller,Day of the week,Session" << endl;
+	Course* temp = l.pHead;
+	while (temp != NULL) {
+		string session = temp->session[0] + "-" + temp->session[1];
+		fout << temp->id << "," << temp->courseName << "," << temp->teacherName << ","
+			<< temp->credits << "," << temp->academicYear << "," << temp->numOfStudents << ","
+			<< temp->NumofEroller << "," << temp->weekDay << "," << session;
+		temp = temp->pNext;
+		if (temp != NULL) fout << endl;
 	}
+	fout.close();
+}
 void DeleteCourse(ListCourse& l, Course p, string path) {
 
 	Course* tmp = l.pHead;
@@ -572,7 +584,7 @@ void Detail(ListCourse& l, int ans) {
 
 }
 
-//code oo thanh
+//code ông thanh
 Student EnterStudent() {
 	Student s;
 	cout << "Enter ID: ";
@@ -598,29 +610,6 @@ Student EnterStudent() {
 	s.otherMark = 1 + rand() % 9;
 	return s;
 }
-void InitListStudent(ListStudent*& list) {
-	list = new ListStudent;
-	list->head = list->tail = NULL;
-}
-
-NodeStudent* createNewNodeStudent(Student& st) {
-	NodeStudent* newStudent = new NodeStudent;
-	newStudent->studentInfo = st;
-	newStudent->next = NULL;
-	return newStudent;
-}
-
-void addStudentIntoListStudent(ListStudent*& list, Student st) {
-	NodeStudent* newStudent = createNewNodeStudent(st);
-	if (list->head == NULL && list->tail == NULL) {
-		list->head = list->tail = newStudent;
-	}
-	else {
-		list->tail->next = newStudent;
-		list->tail = newStudent;
-	}
-}	
-
 double strToDouble(string& s) {
 	return stod(s);
 }
@@ -634,7 +623,6 @@ ListStudent* loadFileDataOfStudent(string ListFileName[], int ans)
 	fIn.open(classPath);
 	if (!fIn.is_open())
 	{
-		cout << "Cant open this file" << endl;
 		return NULL;
 	}
 
@@ -673,66 +661,8 @@ ListStudent* loadFileDataOfStudent(string ListFileName[], int ans)
 		addStudentIntoListStudent(studentsInCurrentClass, newStudent);
 	}
 
-	cout << "Doc file thanh cong" << endl;
 	fIn.close();
 	return studentsInCurrentClass;
-}
-void saveDataOfListStudent(string currentClass, ListStudent* list) {//EXPORT	
-
-	// Cho người dùng nhập tên lớp
-	string classPath = currentClass;
-
-	ofstream fOut;
-	fOut.open(classPath);
-	if (!fOut.is_open()) {
-		cout << "Can't open this file. " << endl;
-		return;
-	}
-
-	fOut << "N0, Student ID, Last Name, First Name, Gender, Date of birth, Social ID" << endl;
-	NodeStudent* curr = list->head;
-	int i = 1;
-	while (curr != NULL) {
-		string dateOfBirth = to_string(curr->studentInfo.dateOfBirth.day) + "/" + to_string(curr->studentInfo.dateOfBirth.month) + "/" + to_string(curr->studentInfo.dateOfBirth.year);
-		fOut << i << "," << curr->studentInfo.studentID << "," << curr->studentInfo.lastName << "," << curr->studentInfo.firstName << ","
-			<< curr->studentInfo.gender << "," << dateOfBirth << "," << curr->studentInfo.socialID;
-		curr = curr->next;
-		if (curr != NULL) {
-			fOut << endl;
-		}
-		i++;
-
-	}
-	fOut.close();
-}
-void saveDataOfListStudent2(string currentClass, ListStudent* list) {
-
-	// Cho người dùng nhập tên lớp
-	string classPath = currentClass;
-
-	ofstream fOut;
-	fOut.open(classPath);
-	if (!fOut.is_open()) {
-		cout << "Can't open this file. " << endl;
-		return;
-	}
-
-	fOut << "N0, Student ID, Last Name, First Name, Gender, Date of birth, Social ID, Other Mark, Midterm Mark, Final Mark" << endl;
-	NodeStudent* curr = list->head;
-	int i = 1;
-	while (curr != NULL) {
-		string dateOfBirth = to_string(curr->studentInfo.dateOfBirth.day) + "/" + to_string(curr->studentInfo.dateOfBirth.month) + "/" + to_string(curr->studentInfo.dateOfBirth.year);
-		fOut << i << "," << curr->studentInfo.studentID << "," << curr->studentInfo.lastName << "," << curr->studentInfo.firstName << ","
-			<< curr->studentInfo.gender << "," << dateOfBirth << "," << curr->studentInfo.socialID << "," << curr->studentInfo.otherMark
-			<< "," << curr->studentInfo.midtermMark << "," << curr->studentInfo.finalMark;
-		curr = curr->next;
-		if (curr != NULL) {
-			fOut << endl;
-		}
-		i++;
-	}
-	fOut.close();
-
 }
 void PrintListstudentOfClass(ListStudent* l) {
 	NodeStudent* tmp1 = l->head;
@@ -801,36 +731,6 @@ void ViewScoreboard(ListStudent* l, string listFileName[], int ans) {
 	ScoreListstudentOfClass(l);
 
 }
-void AddStudent(ListStudent* l, string FileName[], int ans) {
-	Student s = EnterStudent();
-	addStudentIntoListStudent(l, s);
-	saveDataOfListStudent2(FileName[ans], l);
-	notifyBox("ADD STUDENT COMPLETELY!");
-}
-void removeStudentFollowID(ListStudent*& list, string ID) {
-	NodeStudent* current = list->head;
-	NodeStudent* prev = NULL;
-	while (current != NULL) {
-		if (current->studentInfo.studentID == ID) {
-			NodeStudent* temp = current;
-			if (prev == NULL) {
-				//  node prev == NULL, nghĩa là current đang ở node đầu
-				list->head = current->next;
-				current = current->next;
-			}
-			else {
-				prev->next = current->next;
-				current = current->next;
-			}
-			delete temp;
-		}
-		else {
-			// Cập nhật node prev đi theo node current
-			prev = current;
-			current = current->next;
-		}
-	}
-}
 Course EnterCourse() {
 	Course course;
 	string session;
@@ -865,8 +765,8 @@ Course EnterCourse() {
 	course.session[1] = session.substr(session.find('S'), 2);
 	return course;
 }
-void AddCourseMenu(ListCourse &l) {
-	vector<string> options = {"Input Course","Import Course From file CSV","Back"};
+void AddCourseMenu(ListCourse& l) {
+	vector<string> options = { "Input Course","Import Course From file CSV","Back" };
 	int currentOption = 0;
 	int onMenu3 = 0;
 	char key;
@@ -931,7 +831,7 @@ void AddCourseMenu(ListCourse &l) {
 }
 void DispalyAfterChooseOneCourse(int ans, ListCourse& l, string path) {
 	vector<string> options = { "View Detail","Change Course","Delete","List of student","Export to CSV ","Add Student","Import Scoreboard","View Scoreboard","Remove Student","Back" };
-	string listFileName[5] = { "Data/StudentOfCourses/classOfCourse1.csv"};
+	string listFileName[5] = { "Data/StudentOfCourses/classOfCourse1.csv" };
 	int currentOption = 0;
 	int onMenu3 = 0;
 	char key;
@@ -1053,7 +953,7 @@ void DispalyAfterChooseOneCourse(int ans, ListCourse& l, string path) {
 			getline(cin, id);
 			ListStudent* l = loadFileDataOfStudent(listFileName, ans);
 			removeStudentFollowID(l, id);
-			saveDataOfListStudent2(listFileName[ans], l);
+			saveDataOfListStudentWithMark(listFileName[ans], l);
 			notifyBox("REMOVE COMPLETELY!");
 			onMenu3 = 0;
 		}
@@ -1141,7 +1041,7 @@ void SaveSemester(Semester s, string path) {
 	fout << s.endDate.day << "/" << s.endDate.month << "/" << s.endDate.year;
 	fout.close();
 }
-void ReadSemester(Semester&s, string path) {
+void ReadSemester(Semester& s, string path) {
 	ifstream fin(path);
 	fin >> s.semester;
 	cin.ignore();
@@ -1158,7 +1058,7 @@ void ReadSemester(Semester&s, string path) {
 	fin >> s.endDate.year;
 	fin.close();
 }
-void CreateSemester1(Semester&s,string path,int check) {
+void CreateSemester1(Semester& s, string path, int check) {
 	CreateSemester(s);
 	SaveSemester(s, path);
 	check++;
@@ -1297,4 +1197,278 @@ void ManageCourses() {
 		}
 	} while (key != 'q');
 
+}
+
+//phần liststudent
+//dùng chung và cho khóa học
+void InitListStudent(ListStudent*& list) {
+	list = new ListStudent;
+	list->head = list->tail = NULL;
+}
+NodeStudent* createNewNodeStudent(Student& st) {
+	NodeStudent* newStudent = new NodeStudent;
+	newStudent->studentInfo = st;
+	newStudent->next = NULL;
+	return newStudent;
+}
+void addStudentIntoListStudent(ListStudent*& list, Student st) {
+	NodeStudent* newStudent = createNewNodeStudent(st);
+	if (list->head == NULL && list->tail == NULL) {
+		list->head = list->tail = newStudent;
+	}
+	else {
+		list->tail->next = newStudent;
+		list->tail = newStudent;
+	}
+}
+void AddStudent(ListStudent* l, string FileName[], int ans) {
+	Student s = EnterStudent();
+	addStudentIntoListStudent(l, s);
+	saveDataOfListStudentWithMark(FileName[ans], l);
+	notifyBox("ADD STUDENT COMPLETELY!");
+}
+void removeStudentFollowID(ListStudent*& list, string ID) {
+	NodeStudent* current = list->head;
+	NodeStudent* prev = NULL;
+	while (current != NULL) {
+		if (current->studentInfo.studentID == ID) {
+			NodeStudent* temp = current;
+			if (prev == NULL) {
+				//  node prev == NULL, nghĩa là current đang ở node đầu
+				list->head = current->next;
+				current = current->next;
+			}
+			else {
+				prev->next = current->next;
+				current = current->next;
+			}
+			delete temp;
+		}
+		else {
+			// Cập nhật node prev đi theo node current
+			prev = current;
+			current = current->next;
+		}
+	}
+}
+void saveDataOfListStudent(string currentClass, ListStudent* list) {//EXPORT	
+
+	// Cho người dùng nhập tên lớp
+	string classPath = currentClass;
+
+	ofstream fOut;
+	fOut.open(classPath);
+	if (!fOut.is_open()) {
+		cout << "Can't open this file. " << endl;
+		return;
+	}
+
+	fOut << "N0, Student ID, Last Name, First Name, Gender, Date of birth, Social ID" << endl;
+	NodeStudent* curr = list->head;
+	int i = 1;
+	while (curr != NULL) {
+		string dateOfBirth = to_string(curr->studentInfo.dateOfBirth.day) + "/" + to_string(curr->studentInfo.dateOfBirth.month) + "/" + to_string(curr->studentInfo.dateOfBirth.year);
+		fOut << i << "," << curr->studentInfo.studentID << "," << curr->studentInfo.lastName << "," << curr->studentInfo.firstName << ","
+			<< curr->studentInfo.gender << "," << dateOfBirth << "," << curr->studentInfo.socialID;
+		curr = curr->next;
+		if (curr != NULL) {
+			fOut << endl;
+		}
+		i++;
+
+	}
+	fOut.close();
+}
+void saveDataOfListStudentWithMark(string currentClass, ListStudent* list) {
+
+	// Cho người dùng nhập tên lớp
+	string classPath = currentClass;
+
+	ofstream fOut;
+	fOut.open(classPath);
+	if (!fOut.is_open()) {
+		cout << "Can't open this file. " << endl;
+		return;
+	}
+
+	fOut << "N0, Student ID, Last Name, First Name, Gender, Date of birth, Social ID, Other Mark, Midterm Mark, Final Mark" << endl;
+	NodeStudent* curr = list->head;
+	int i = 1;
+	while (curr != NULL) {
+		string dateOfBirth = to_string(curr->studentInfo.dateOfBirth.day) + "/" + to_string(curr->studentInfo.dateOfBirth.month) + "/" + to_string(curr->studentInfo.dateOfBirth.year);
+		fOut << i << "," << curr->studentInfo.studentID << "," << curr->studentInfo.lastName << "," << curr->studentInfo.firstName << ","
+			<< curr->studentInfo.gender << "," << dateOfBirth << "," << curr->studentInfo.socialID << "," << curr->studentInfo.otherMark
+			<< "," << curr->studentInfo.midtermMark << "," << curr->studentInfo.finalMark;
+		curr = curr->next;
+		if (curr != NULL) {
+			fOut << endl;
+		}
+		i++;
+	}
+	fOut.close();
+
+}
+//dùng cho lớp học
+ListStudent* loadFileDataOfStudent(string currentClass)
+{
+	takeClassPath(currentClass);
+	ifstream fIn;
+	fIn.open(classLink);
+	if (!fIn.is_open()) return NULL;
+	ListStudent* studentsInCurrentClass = new ListStudent[150];
+	InitListStudent(studentsInCurrentClass);
+
+	string tmpData = "";
+	getline(fIn, tmpData, '\n');
+	while (!fIn.eof())
+	{
+		Student newStudent;
+		string s, dateOfBirth;
+		getline(fIn, s, ',');
+		if (s == "") break;
+		getline(fIn, newStudent.studentID, ',');
+		if (newStudent.studentID == "") break;
+		getline(fIn, newStudent.lastName, ',');
+		getline(fIn, newStudent.firstName, ',');
+		getline(fIn, newStudent.gender, ',');
+		getline(fIn, dateOfBirth, ',');
+		newStudent.dateOfBirth = strToDate(dateOfBirth);
+		getline(fIn, newStudent.socialID, '\n');
+		/*string tmp;
+		getline(fIn, tmp, '\n');*/
+		newStudent.socialID[newStudent.socialID.length() - 1] = '\0';
+
+		addStudentIntoListStudent(studentsInCurrentClass, newStudent);
+	}
+
+	fIn.close();
+	return studentsInCurrentClass;
+}
+ListStudent* createdListStudentWithDataFromKeyBoard(string className, int numOfStudents)
+{
+	system("cls");
+	ListStudent* newList = new ListStudent[numOfStudents];
+	InitListStudent(newList);
+
+	int no = 1;
+	int yPos = 2;
+	int xPos = 17;
+	int quantity;
+	int curStudent = 0;
+	bool isUsed = true;
+	while (isUsed)
+	{
+		gotoXY(55, yPos); cout << "CLASS " << className;
+		yPos += 2;
+		gotoXY(xPos, yPos); cout << "No |";
+		gotoXY(xPos + 5, yPos); cout << "Student ID   |";
+		gotoXY(xPos + 20, yPos); cout << "Last Name         |";
+		gotoXY(xPos + 40, yPos); cout << "First Name   |";
+		gotoXY(xPos + 55, yPos); cout << "Gender  |";
+		gotoXY(xPos + 65, yPos); cout << "Date of Birth |";
+		gotoXY(xPos + 81, yPos); cout << "Social ID";
+		yPos++;
+		if (numOfStudents - curStudent >= 20) quantity = 20;
+		else quantity = numOfStudents - curStudent;
+		for (int i = 0; i < quantity; i++)
+		{
+			Student newStudent;
+			string dateOfBirth;
+			gotoXY(xPos, yPos); cout << no;
+			gotoXY(xPos + 3, yPos); cout << "|                ";
+			gotoXY(xPos + 5, yPos); getline(cin, newStudent.studentID);
+			gotoXY(xPos + 18, yPos); cout << "|                ";
+			gotoXY(xPos + 20, yPos); getline(cin, newStudent.lastName);
+			gotoXY(xPos + 38, yPos); cout << "|                ";
+			gotoXY(xPos + 40, yPos); getline(cin, newStudent.firstName);
+			gotoXY(xPos + 53, yPos); cout << "|                ";
+			gotoXY(xPos + 55, yPos); getline(cin, newStudent.gender);
+			gotoXY(xPos + 63, yPos); cout << "|                ";
+			gotoXY(xPos + 65, yPos); getline(cin, dateOfBirth);
+			newStudent.dateOfBirth = strToDate(dateOfBirth);
+			gotoXY(xPos + 79, yPos); cout << "|      ";
+			gotoXY(xPos + 81, yPos); getline(cin, newStudent.socialID);
+
+			addStudentIntoListStudent(newList, newStudent);
+			curStudent++; no++;
+			yPos++;
+		}
+		if (curStudent == numOfStudents)
+		{
+			isUsed = false;
+			continue;
+		}
+	}
+	return newList;
+}
+ListStudent* readFileStudentFromPathToAddIntoClass(string pathFile)
+{
+	ifstream fIn;
+	fIn.open(pathFile);
+	if (!fIn.is_open()) return NULL;
+	else
+	{
+		ListStudent* studentsInCurrentClass = new ListStudent[150];
+		InitListStudent(studentsInCurrentClass);
+
+		string tmpData = "";
+		getline(fIn, tmpData, '\n');
+		while (!fIn.eof())
+		{
+			Student newStudent;
+			string s, dateOfBirth;
+			getline(fIn, s, ',');
+			if (s == "") break;
+			getline(fIn, newStudent.studentID, ',');
+			getline(fIn, newStudent.lastName, ',');
+			getline(fIn, newStudent.firstName, ',');
+			getline(fIn, newStudent.gender, ',');
+			getline(fIn, dateOfBirth, ',');
+			newStudent.dateOfBirth = strToDate(dateOfBirth);
+			getline(fIn, newStudent.socialID, '\n');
+			newStudent.socialID[newStudent.socialID.length() - 1] = '\0';
+
+			//string tmp;
+			//getline(fIn, tmp, '\n');
+
+			addStudentIntoListStudent(studentsInCurrentClass, newStudent);
+		}
+
+		fIn.close();
+		return studentsInCurrentClass;
+	}
+}
+void writeFileStudentFromNewClassIntoDatabase(ListStudent* list, string className)
+{
+	takeClassPath(className);
+	ofstream fOut;
+	fOut.open(classLink);
+	if (!fOut.is_open())
+	{
+		return;
+	}
+
+	fOut << "No,Student ID,Last name,First name,Gender,Date of Birth,Social ID,Academic year" << endl;
+	NodeStudent* cur = list->head;
+	int no = 1;
+	while (cur != NULL)
+	{
+		string dateOfBirth = to_string(cur->studentInfo.dateOfBirth.day) + "/" + to_string(cur->studentInfo.dateOfBirth.month) + "/" + to_string(cur->studentInfo.dateOfBirth.year);
+		fOut << no << "," << cur->studentInfo.studentID << "," << cur->studentInfo.lastName << "," << cur->studentInfo.firstName << "," << cur->studentInfo.gender << "," << dateOfBirth << "," << cur->studentInfo.socialID << "," << cur->studentInfo.academicYear;
+		fOut << endl;
+		no++;
+		cur = cur->next;
+		if (cur == NULL) fOut << endl;
+	}
+	fOut.close();
+}
+void deleteStudentList(ListStudent*& list)
+{
+	if (list == NULL || list->head == NULL)return;
+	while (list->head != NULL)
+	{
+		NodeStudent* tmp = list->head;
+		list->head = tmp->next;
+		delete tmp;
+	}
 }

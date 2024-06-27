@@ -13,7 +13,7 @@ string currentSchoolYear;
 Semester currentSemester;
 string semesterPath;
 string schoolYearPath;
-int yPos = 13;
+int yPos = 15;
 User* login(string id, string password) {
 	User* data = listUser.head;
 	while (data != NULL) {
@@ -96,12 +96,13 @@ string getPassword(bool isHidden) {
 	}
 }
 void loginUI() {
-	const int width = 40;
+	const int width = 50;
 	const int height = 10;
-	const int left = 40;
-	const int top = 10;
+	const int left = 35;
+	const int top = 12;
 	Date currDate = CurrentDate();
 	drawBox(width, height, left, top);
+	headerBackGround(35, 0);
 	textAlignCenter("HCMUS PORTAL", left, width, 6);
 	textAlignCenter("LOGIN", left, width, 7);
 	gotoXY(40, 9); cout << dateToStr(currDate);
@@ -112,7 +113,7 @@ void loginUI() {
 	gotoXY(72, yPos + 2);
 	cout << " Hidden";
 	cout << char(254);
-	gotoXY(48, yPos + 3);
+	gotoXY(48, yPos + 4);
 	cout << "(press F1 to show password)";
 	gotoXY(55, yPos);
 	getline(cin, id);
@@ -159,7 +160,7 @@ void StaffMenu() {
 				}
 				if (currentOption == 3) {
 					onMenu3 = 4;
-				}			
+				}
 				if (currentOption == 4) {//.current Option ma bang options.size()-1 thi la phan tu cuoi va chung la "Thoat".
 					onMenu3 = 100;
 					key = 'q';
@@ -186,8 +187,10 @@ void StaffMenu() {
 			/*system("pause");*/
 			onMenu3 = 0;
 		}
-		else if (onMenu3 == 100) {
-			break;
+		else if (onMenu3 == 3) {
+			system("cls");
+			manageStudentMainUI();
+			onMenu3 = 0;
 		}
 	} while (key != 'q');
 

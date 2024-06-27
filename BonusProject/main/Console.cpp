@@ -4,7 +4,7 @@
 #include "User.h"
 #include "Login.h"
 #include "Student.h"
-#include "SchoolYear.h"
+#include "Class.h"
 const int yPos = 13;
 //ListClasses listClasses;
 void getConsoleSize(int& width, int& height) {
@@ -57,7 +57,7 @@ void drawBox(int width, int height, int left, int top) {
 	cout << char(187);//.-|
 }
 void textAlignCenter(string s, int left, int width, int y) {//.y la toa do y(tung do) , left la toa do x ma ta se in string s (hoanh do), width la hieu rong cua Box (Vi ta du dinh se in s tren box va dc can chinh giua theo chieu rong so vs box).
-	int x = ((width - s.length()) / 2) + left + 1;
+	size_t x = ((width - s.length()) / 2) + left + 1;
 	gotoXY(x, y); cout << s;
 }
 string dateToStr(Date date) {//.chuyen 1 so int 1 thanh 01 , ma so 12 van la 12
@@ -77,6 +77,156 @@ void hideCursor(bool isHiden) {
 	cursor.bVisible = !isHiden;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor);
 }
+void notifyBox(string noti)
+{
+	hideCursor(true);
+	system("cls");
+	//set kich thuoc khung thong bao
+	int width = 45;
+	int height = 5;
+	int left = 40;
+	int top = 9;
+	int yPos = 11;
+
+	gotoXY(57, 8);
+	cout << "NOTIFICATION";
+	//alignRow(45, yPos, noti, 37);
+	height += (yPos - 11);
+
+	drawBox(width, height, left, top);
+	yPos++;
+
+	gotoXY(45, yPos);
+	cout << noti;
+
+	int key = _getch(); //dung man hinh, nguoi dung nhap ky tu bat ky thi tiep tuc
+	system("cls");
+}
+//hàm chuyển sang chuỗi dạng wstring
+wstring strToWstr(string s) {
+	int len;
+	int sLength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), sLength, 0, 0);
+	std::wstring r(len, L'\0');
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), sLength, &r[0], len);
+	return r;
+}
+//hàm tạo header cho background (màu)
+void headerBackGround(int x, int y)
+{
+	gotoXY(x, y); cout << " ___  ___  _______   __    __   __    __   _____" << endl;
+	gotoXY(x, y + 1); cout << " | |__| |  |  ___|  |  \\  /  |  | |  | |  |  ___| " << endl;
+	gotoXY(x, y + 2); cout << " |  __  |  | |      | | \\/ | |  | |  | |  |___  |  " << endl;
+	gotoXY(x, y + 3); cout << " | |  | |  | |___   | |    | |  | |__| |   ___| | " << endl;
+	gotoXY(x, y + 4); cout << " |_|  |_|  |_____|  |_|    |_|  |______|  |_____| " << endl;
+}
+void bodyBackground(int x, int y)
+{
+	gotoXY(x, y); cout << "  __________   _________    ________   ____________  _________    ____       " << endl;
+	gotoXY(x, y + 1); cout << "  |   __   |   |  ___  |   |   __   |  |____  ____|  |  ____  |   |  |       " << endl;
+	gotoXY(x, y + 2); cout << "  |  |  |  |   |  | |  |   |  |  |  |      |  |      |  |  |  |   |  |       " << endl;
+	gotoXY(x, y + 3); cout << "  |  |__|  |   |  | |  |   |  |__|  |      |  |      |  |__|  |   |  |        " << endl;
+	gotoXY(x, y + 4); cout << "  |  ______|   |  | |  |   |  __   /       |  |      |   __   |   |  |        " << endl;
+	gotoXY(x, y + 5); cout << "  |  |         |  | |  |   |  | \\  \\       |  |      |  |  |  |   |  |         " << endl;
+	gotoXY(x, y + 6); cout << "  |  |         |  |_|  |   |  |  \\  \\      |  |      |  |  |  |   |  |-----.     " << endl;
+	gotoXY(x, y + 7); cout << "  |__|         |_______|   |__|   \\__\\     |__|      |__|  |__|   |________|   " << endl;
+}
+void footerBackground()
+{
+	hideCursor(true);
+	int width = 80;
+	int height = 1;
+	int left = 20;
+	int top = 24;
+	int percent = 21;
+	drawBox(width, height, left, top);
+	for (int i = 0; i < 80; i++) {
+		gotoXY(i + 21, 25); cout << char(219);
+		gotoXY(95, 23); cout << percent << "%";
+		percent++;
+		Sleep(25);
+	}
+	system("cls");
+}
+
+void loginSystem()
+{
+	//xoa man hinh va load cac du lieu co san tu file
+	system("cls");
+	getListUsers();
+	schoolYearPath = "./data/" + currentSchoolYear;// tao duong dan den file nam hoc hien tai
+
+	//vong lap de thao tac voi giao dien dang nhap
+	//ham se chuyen sang giao dien khac khi tai khoan dang nhap dung
+	while (true)
+	{
+		hideCursor(false);//an con tro
+		loginUI();// hien ra cua so dang nhap
+
+		if (currentUser == NULL)
+		{
+			notifyBox("Login Fail");
+		}
+		else
+		{
+			notifyBox("Login Succesful");
+			break;
+		}
+	}
+
+	if (currentUser->isStaff) //la staff thi chuyen sang giao dien cua staff
+	{
+		//staffMenu();
+		StaffMenu();
+	}
+	else //nguoc lai la giao dien cua student
+	{
+		//studentMenu()
+		StudentMenu();
+	}
+	system("cls");
+
+	deleteClassNameList(listClassName);
+	deleteListClasses(listClasses);
+	delete[]listClassName;
+	delete[]listClasses;
+}
+
+void waittingscreen()
+{
+	hideCursor(true);
+	system("cls");
+	headerBackGround(35, 2);
+	bodyBackground(22, 10);
+	footerBackground();
+
+	loginSystem();
+}
+
+// Hàm in menu và highlight tùy chọn được chọn
+void printMenu(const vector<string>& options, int currentOption, int k) {//.Ham nay dung de in ra MENU cua 1 trang con.
+	// dùng để xóa những gì đã hiển thị trên của sổ console , nghĩa là sau khi nhấn 1 trong các phím w /s thì nó sẽ chuyển sang 1 op khác nhưng cái dòng menu vs op cũ đc chọn vẫn còn nếu k dùng lệnh này, muốn rõ hơn thì xóa dòng này r chạy chương trình là biết.
+	system("cls");
+	for (int i = 0; i < options.size(); ++i) {
+		if (i == currentOption) {
+			//.Nếu là currOp thì mình đổi màu chữ--> cout ra op --> đổi lại màu chữ trắng . còn k phải curOp thì mình sẽ cout thôi, nghĩa là àu chữ trắng
+			// Thay đổi màu sắc chữ cho cả dòng code sau này , nếu k có lệnh trả lại màu chữ ban đầu thì màu chữ đc in ra luôn là xanh lá
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+			gotoXY(53, k);
+			cout << options[i] << endl;
+			k++;
+			// Trả lại màu sắc mặc định sau khi in xong dòng chữ của của phần tử curr trong vector,sau lệnh này thì những dòng chữ đc in ra co màu trắng (hủy lệnh thay đổi màu chữ phía trên).
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		}
+		else {
+			gotoXY(53, k);
+			cout << options[i] << endl;
+			k++;
+		}
+	}
+}
+
+//phần xử lý ngày tháng năm
 int dayofweek(int d, int m, int y)
 {
 	static int t[] = { 0, 3, 2, 5, 0, 3,
@@ -120,128 +270,6 @@ Date strToDate(string str) {
 	date.wDay = wDay;
 	return date;
 
-}
-
-// ham dung de can chinh hang
-void alignRow(int x, int& y, string text, int rowLength)
-{
-	// dem so dau cach va cap phat mang string co so phan tu bang so chuoi con
-	int n = count(text.begin(), text.end(), ' ') + 1;
-	string* strArr = new string[n];
-	int i = 0;
-
-	stringstream ssin(text);
-	while (ssin.good() && i < n)
-	{
-		ssin >> strArr[i]; //luu tung chuoi con vao mang string
-		i++;
-	}
-
-	i = 0;
-	int s = rowLength;
-	while (i < n)
-	{
-		gotoXY(x, y);
-		rowLength = s;
-		while (rowLength > 0 || i < n)
-		{
-			cout << strArr[i] << " ";
-			rowLength -= (strArr[i].length() + 1);
-			i++;
-			if (rowLength < (strArr[i].length() + 1))
-			{
-				break;
-			}
-			y++;
-		}
-	}
-}
-
-void notifyBox(string noti)
-{
-	hideCursor(true);
-	system("cls");
-	//set kich thuoc khung thong bao
-	int width = 45;
-	int height = 5;
-	int left = 40;
-	int top = 9;
-	int yPos = 11;
-
-	gotoXY(57, 8);
-	cout << "NOTIFICATION";
-	//alignRow(45, yPos, noti, 37);
-	height += (yPos - 11);
-
-	drawBox(width, height, left, top);
-	yPos++;
-
-	gotoXY(45, yPos);
-	cout << noti;
-
-	_getch(); //dung man hinh, nguoi dung nhap ky tu bat ky thi tiep tuc
-	system("cls");
-}
-
-void loginSystem()
-{
-	//xoa man hinh va load cac du lieu co san tu file
-	system("cls");
-	getListUsers();
-	schoolYearPath = "./data/" + currentSchoolYear;// tao duong dan den file nam hoc hien tai
-
-	//vong lap de thao tac voi giao dien dang nhap
-	//ham se chuyen sang giao dien khac khi tai khoan dang nhap dung
-	while (true)
-	{
-		hideCursor(false);//an con tro
-		loginUI();// hien ra cua so dang nhap
-
-		if (currentUser == NULL)
-		{
-			notifyBox("Login Fail");
-		}
-		else
-		{
-			notifyBox("Login Succesful");
-			break;
-		}
-	}
-
-	if (currentUser->isStaff) //la staff thi chuyen sang giao dien cua staff
-	{
-		//staffMenu();
-		StaffMenu();
-	}
-	else //nguoc lai la giao dien cua student
-	{
-		//studentMenu()
-		StudentMenu();
-	}
-	system("cls");
-}
-
-// Hàm in menu và highlight tùy chọn được chọn
-void printMenu(const vector<string>& options, int currentOption, int k) {//.Ham nay dung de in ra MENU cua 1 trang con.
-	// dùng để xóa những gì đã hiển thị trên của sổ console , nghĩa là sau khi nhấn 1 trong các phím w /s thì nó sẽ chuyển sang 1 op khác nhưng cái dòng menu vs op cũ đc chọn vẫn còn nếu k dùng lệnh này, muốn rõ hơn thì xóa dòng này r chạy chương trình là biết.
-	system("cls");
-	for (int i = 0; i < options.size(); ++i) {
-		if (i == currentOption) {
-			//.Nếu là currOp thì mình đổi màu chữ--> cout ra op --> đổi lại màu chữ trắng . còn k phải curOp thì mình sẽ cout thôi, nghĩa là àu chữ trắng
-			// Thay đổi màu sắc chữ cho cả dòng code sau này , nếu k có lệnh trả lại màu chữ ban đầu thì màu chữ đc in ra luôn là xanh lá
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-			gotoXY(53, k);
-			cout << options[i] << endl;
-			k++;
-			// Trả lại màu sắc mặc định sau khi in xong dòng chữ của của phần tử curr trong vector,sau lệnh này thì những dòng chữ đc in ra co màu trắng (hủy lệnh thay đổi màu chữ phía trên).
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-		}
-		else {
-			gotoXY(53, k);
-			cout << options[i] << endl;
-			k++;
-		}
-	}
 }
 Date CurrentDate() {
 	// Lấy thời gian hiện tại
