@@ -132,7 +132,6 @@
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Staff.cpp" />
-    <ClCompile Include="struct.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>

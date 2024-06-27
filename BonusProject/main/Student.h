@@ -2,6 +2,7 @@
 #define Student_h
 #include"struct.h"   
 
+// Điểm số
 void StudentMenu();
 NodeScoreBoard* makeNode(ScoreBoard sb);
 void addScoreBoard(ListScoreBoard& l, ScoreBoard sb);

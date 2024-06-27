@@ -24,9 +24,6 @@
     <ClCompile Include="Login.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="struct.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="User.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
