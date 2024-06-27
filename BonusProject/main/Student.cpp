@@ -84,6 +84,9 @@ void StudentMenu() {
 			system("pause");
 			onMenu3 = 0;
 		}
+		else if (onMenu3 == 100) {
+			break;
+		}
 	} while (key != 'q');
 
 }
