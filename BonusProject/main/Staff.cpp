@@ -166,6 +166,7 @@ void AddCourse(ListCourse& l, Course* p) {
 	tmp->id = p->id;
 	tmp->NumofEroller = p->NumofEroller;
 	tmp->numOfStudents = p->numOfStudents;
+	tmp->weekDay = p->weekDay;
 	tmp->session[0] = p->session[0];
 	tmp->session[1] = p->session[1];
 	tmp->teacherName = p->teacherName;
