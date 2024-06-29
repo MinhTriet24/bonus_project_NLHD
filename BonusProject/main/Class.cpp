@@ -857,18 +857,27 @@ void InputClassUI()
 
 	if (nodeClassesCur == NULL) return;
 	ndeClass* nodeClassCur = nodeClassesCur->classesInfo.listClassInSy->pHead;
-	while (nodeClassCur->pNext != NULL)
+	
+	if (nodeClassCur->classInfo.studentYear == "secondYear")
 	{
-		if (nodeClassCur->pNext->classInfo.studentYear == "secondYear")
-		{
-			break;
-		}
-		nodeClassCur = nodeClassCur->pNext;
+		newNode->pNext = nodeClassesCur->classesInfo.listClassInSy->pHead;
+		nodeClassesCur->classesInfo.listClassInSy->pHead = newNode;
 	}
+	else
+	{
+		while (nodeClassCur->pNext != NULL)
+		{
+			if (nodeClassCur->pNext->classInfo.studentYear == "secondYear")
+			{
+				break;
+			}
+		nodeClassCur = nodeClassCur->pNext;
+		}
 
-	if (nodeClassCur->pNext == NULL) return;
-	newNode->pNext = nodeClassCur->pNext;
-	nodeClassCur->pNext = newNode;
+		if (nodeClassCur->pNext == NULL) return;
+		newNode->pNext = nodeClassCur->pNext;
+		nodeClassCur->pNext = newNode;
+	}
 
 	sortListClassNameInClassesList();
 
@@ -938,18 +947,27 @@ void ImportClassDataUI()
 
 	if (nodeClassesCur == NULL) return;
 	ndeClass* nodeClassCur = nodeClassesCur->classesInfo.listClassInSy->pHead;
-	while (nodeClassCur->pNext != NULL)
+	
+	if (nodeClassCur->classInfo.studentYear == "secondYear")
 	{
-		if (nodeClassCur->pNext->classInfo.studentYear == "secondYear")
-		{
-			break;
-		}
-		nodeClassCur = nodeClassCur->pNext;
+		newNode->pNext = nodeClassesCur->classesInfo.listClassInSy->pHead;
+		nodeClassesCur->classesInfo.listClassInSy->pHead = newNode;
 	}
+	else
+	{
+		while (nodeClassCur->pNext != NULL)
+		{
+			if (nodeClassCur->pNext->classInfo.studentYear == "secondYear")
+			{
+				break;
+			}
+		nodeClassCur = nodeClassCur->pNext;
+		}
 
-	if (nodeClassCur->pNext == NULL) return;
-	newNode->pNext = nodeClassCur->pNext;
-	nodeClassCur->pNext = newNode;
+		if (nodeClassCur->pNext == NULL) return;
+		newNode->pNext = nodeClassCur->pNext;
+		nodeClassCur->pNext = newNode;
+	}
 
 	sortListClassNameInClassesList();
 
