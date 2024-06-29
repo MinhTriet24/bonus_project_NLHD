@@ -424,6 +424,8 @@ void DeleteCourse(ListCourse& l, Course p, string path) {
 	{
 		l.pHead = tmp->pNext;
 		delete tmp;
+		saveCourses(path, l);//.Luu danh sach sau khi xoa course ve lai file courses.csv
+		ReadFileGetList(l, path);
 		return;
 	}
 
