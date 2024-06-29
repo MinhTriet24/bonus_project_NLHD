@@ -1093,6 +1093,7 @@ void CreateRegistration(Registration& s) {
 	cin >> s.endDate.month;
 	cout << endl << "Enter year: ";
 	cin >> s.endDate.year;
+	cin.ignore();
 
 }
 void SaveRegistration(Registration s, string path) {

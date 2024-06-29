@@ -1,11 +1,2 @@
-﻿  Console.cpp
-D:\bonus_project_NLHD\BonusProject\main\Console.cpp(61,9): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  Login.cpp
-D:\bonus_project_NLHD\BonusProject\main\Login.cpp(36,13): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  Staff.cpp
-  Student.cpp
-D:\bonus_project_NLHD\BonusProject\main\Student.cpp(137,12): warning C4101: 'belongToHim': unreferenced local variable
-  User.cpp
-  main.cpp
-  Generating Code...
+﻿  Staff.cpp
   main.vcxproj -> D:\bonus_project_NLHD\BonusProject\x64\Debug\main.exe
